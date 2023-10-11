@@ -49,6 +49,6 @@ a infra provendo os serviços da aws.
 </br>
 8.3 - Vai listar todos os serviços, o que provisionamos foi o DynamoDB
 </br>
-8.4 - Acesse um dos serviço provisionado e verifique os dados gerados pela aplicação
+8.4 - Acesse o serviço provisionado e verifique os dados gerados pela aplicação
 </br>
 9 - Para executar os testes unitários, utilize sua ide de preferência e acesse o diretório src. Nele existe o diretório test, a partir dele você pode executar toda cadeia de testes unitários ou o nível abaixo que desejar até o nível mínimo acessando uma class específica.
