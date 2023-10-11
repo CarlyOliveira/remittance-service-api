@@ -5,6 +5,7 @@ public class Account {
     private String id;
     private String ownerId;
     private Balance balance;
+    private TransactionalLimit transactionalLimitDaily;
 
     public String getId() {
         return id;
@@ -30,12 +31,21 @@ public class Account {
         this.balance = balance;
     }
 
+    public TransactionalLimit getTransactionalLimitDaily() {
+        return transactionalLimitDaily;
+    }
+
+    public void setTransactionalLimitDaily(TransactionalLimit transactionalLimitDaily) {
+        this.transactionalLimitDaily = transactionalLimitDaily;
+    }
+
     @Override
     public String toString() {
         return "Account{" +
                 "id='" + id + '\'' +
                 ", ownerId='" + ownerId + '\'' +
                 ", balance=" + balance +
+                ", transactionalLimitDaily=" + transactionalLimitDaily +
                 '}';
     }
 }

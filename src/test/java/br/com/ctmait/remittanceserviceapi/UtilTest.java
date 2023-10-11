@@ -3,6 +3,7 @@ package br.com.ctmait.remittanceserviceapi;
 import br.com.ctmait.remittanceserviceapi.domain.models.account.Account;
 import br.com.ctmait.remittanceserviceapi.domain.models.account.Balance;
 import br.com.ctmait.remittanceserviceapi.domain.models.account.Currency;
+import br.com.ctmait.remittanceserviceapi.domain.models.account.TransactionalLimit;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Person;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
 import br.com.ctmait.remittanceserviceapi.domain.models.user.Document;
@@ -14,10 +15,16 @@ import java.util.UUID;
 
 public class UtilTest {
 
+    private static final BigDecimal LIMIT_PF_VALUE = BigDecimal.valueOf(10000.00);
+    private static final BigDecimal LIMIT_PJ_VALUE = BigDecimal.valueOf(50000.00);
+    private static final BigDecimal REMITTANCE_VALUE = BigDecimal.valueOf(100.00);
+
+
+
     public static Remittance generateRemittancePfRealToPjDolar(){
         var remittance = new Remittance();
         remittance.setId(UUID.randomUUID().toString());
-        remittance.setValue(BigDecimal.valueOf(100.00));
+        remittance.setValue(REMITTANCE_VALUE);
         remittance.setPayer(generatePersonPfAccountReal());
         remittance.setReceiver(generatePersonPjAccountDolar());
         return remittance;
@@ -25,7 +32,7 @@ public class UtilTest {
     public static Remittance generateRemittancePjDolarToPfReal(){
         var remittance = new Remittance();
         remittance.setId(UUID.randomUUID().toString());
-        remittance.setValue(BigDecimal.valueOf(100.00));
+        remittance.setValue(REMITTANCE_VALUE);
         remittance.setPayer(generatePersonPjAccountDolar());
         remittance.setReceiver(generatePersonPfAccountReal());
         return remittance;
@@ -33,7 +40,7 @@ public class UtilTest {
     public static Remittance generateRemittancePjDolarToPjReal(){
         var remittance = new Remittance();
         remittance.setId(UUID.randomUUID().toString());
-        remittance.setValue(BigDecimal.valueOf(100.00));
+        remittance.setValue(REMITTANCE_VALUE);
         remittance.setPayer(generatePersonPjAccountDolar());
         remittance.setReceiver(generatePersonPjAccountReal());
         return remittance;
@@ -84,6 +91,9 @@ public class UtilTest {
         balance.setValue(BigDecimal.valueOf(15000.00));
         balance.setCurrency(Currency.REAL);
         account.setBalance(balance);
+        var transacionalLimitDaily = new TransactionalLimit();
+        transacionalLimitDaily.setValue(LIMIT_PF_VALUE);
+        account.setTransactionalLimitDaily(transacionalLimitDaily);
         return account;
     }
     public static Account generateAccountPfDolar(){
@@ -94,6 +104,9 @@ public class UtilTest {
         balance.setValue(BigDecimal.valueOf(3000.00));
         balance.setCurrency(Currency.DOLAR);
         account.setBalance(balance);
+        var transacionalLimitDaily = new TransactionalLimit();
+        transacionalLimitDaily.setValue(LIMIT_PF_VALUE);
+        account.setTransactionalLimitDaily(transacionalLimitDaily);
         return account;
     }
 
@@ -102,9 +115,12 @@ public class UtilTest {
         account.setId("eeaf7e4f-e218-490e-92e6-775f21c8ee21");
         account.setOwnerId(generateUserPJ().getId());
         var balance = new Balance();
-        balance.setValue(BigDecimal.valueOf(15000.00));
+        balance.setValue(BigDecimal.valueOf(150000.00));
         balance.setCurrency(Currency.REAL);
         account.setBalance(balance);
+        var transacionalLimitDaily = new TransactionalLimit();
+        transacionalLimitDaily.setValue(LIMIT_PJ_VALUE);
+        account.setTransactionalLimitDaily(transacionalLimitDaily);
         return account;
     }
 
@@ -113,9 +129,12 @@ public class UtilTest {
         account.setId("eeaf7e4f-e218-490e-92e6-775f21c8ee20");
         account.setOwnerId(generateUserPJ().getId());
         var balance = new Balance();
-        balance.setValue(BigDecimal.valueOf(3000.00));
+        balance.setValue(BigDecimal.valueOf(30000.00));
         balance.setCurrency(Currency.DOLAR);
         account.setBalance(balance);
+        var transacionalLimitDaily = new TransactionalLimit();
+        transacionalLimitDaily.setValue(LIMIT_PJ_VALUE);
+        account.setTransactionalLimitDaily(transacionalLimitDaily);
         return account;
     }
 

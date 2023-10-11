@@ -43,6 +43,7 @@ public class RemittanceCreateValidationImpl implements RemittanceCreateValidatio
             notNullOrEmpty(remittance, " remittance cannot null");
         }catch (Exception e){
             errors.put("remittance", e.getMessage());
+            throw new RemittanceCreateValidationException(e);
         }
     }
 
@@ -59,6 +60,7 @@ public class RemittanceCreateValidationImpl implements RemittanceCreateValidatio
             notNullOrEmpty(remittance.getPayer(), " payer cannot null");
         }catch (Exception e){
             errors.put("payer", e.getMessage());
+            throw new RemittanceCreateValidationException(e);
         }
     }
 
@@ -83,6 +85,7 @@ public class RemittanceCreateValidationImpl implements RemittanceCreateValidatio
             notNullOrEmpty(remittance.getReceiver(), " receiver cannot null");
         }catch (Exception e){
             errors.put("receiver", e.getMessage());
+            throw new RemittanceCreateValidationException(e);
         }
     }
 
