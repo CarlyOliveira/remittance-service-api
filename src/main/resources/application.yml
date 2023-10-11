@@ -1,0 +1,29 @@
+server:
+  servlet:
+    context-path: /remittanceservice
+  port: 8085
+
+spring:
+  application:
+    name: remittanceserviceapi
+#  jpa:
+#    show-sql: 'true'
+#    hibernate:
+#      ddl-auto: 'update'
+
+aws:
+  credentials:
+    access-key: fakeAccessKeyId
+    secret-key: fakeSecretAccessKey
+  region:
+    auto: sa-east-1
+    static: sa-east-1
+  dynamodb:
+    endpoint: http://172.25.0.1:4566
+
+
+rest:
+  resources:
+    remmitanceserviceapi:
+      response:
+        base-path-location: /remittanceservice/api/v1/remittance
