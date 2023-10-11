@@ -3,7 +3,7 @@ package br.com.ctmait.remittanceserviceapi.abstraction.process;
 import br.com.ctmait.remittanceserviceapi.domain.exceptions.RemittanceCreateProcessException;
 import br.com.ctmait.remittanceserviceapi.domain.exceptions.RemittanceCreateValidationException;
 import br.com.ctmait.remittanceserviceapi.domain.exceptions.RemittanceException;
-import br.com.ctmait.remittanceserviceapi.domain.models.Remittance;
+import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
 
 @FunctionalInterface
 public interface RemittanceCreateProcess {
