@@ -42,7 +42,7 @@ public class AccountRepositoryDynamodb implements AccountRepository {
 
     @Override
     public void updateBalance(String accountId, BigDecimal balanceValue){
-        log.info("ARD-U-00 update accountId {} balanceValue {}", accountId, balanceValue);
+        log.info("ARD-UB-00 update accountId {} balanceValue {}", accountId, balanceValue);
         try {
             Objects.requireNonNull(accountId, "accountId cannot null");
             Objects.requireNonNull(balanceValue, "balanceValue cannot null");
@@ -50,16 +50,28 @@ public class AccountRepositoryDynamodb implements AccountRepository {
             accountEntity.setBalanceValue(balanceValue.toPlainString());
             DynamoDBTableMapper<AccountEntity, String, ?> dynamoDBTableMapper = dynamoDBMapper.newTableMapper(AccountEntity.class);
             dynamoDBTableMapper.saveIfExists(accountEntity);
-            log.info("ARD-U-01 updated accountEntity {} ", accountEntity);
+            log.info("ARD-UB-01 updated accountEntity {} ", accountEntity);
         }catch (Exception exception){
-            log.error("ARD-U-02 error {} updating accountId {} balanceValue {}", exception, accountId, balanceValue);
+            log.error("ARD-UB-02 error {} updating accountId {} balanceValue {}", exception, accountId, balanceValue);
             throw exception;
         }
     }
 
     @Override
-    public void updateLimit(String accountId, BigDecimal balanceValue) {
-
+    public void updateLimit(String accountId, BigDecimal limitValue) {
+        log.info("ARD-UL-00 update accountId {} limitValue {}", accountId, limitValue);
+        try {
+            Objects.requireNonNull(accountId, "accountId cannot null");
+            Objects.requireNonNull(limitValue, "limitValue cannot null");
+            var accountEntity = this.get(accountId);
+            accountEntity.setLimitValue(limitValue.toPlainString());
+            DynamoDBTableMapper<AccountEntity, String, ?> dynamoDBTableMapper = dynamoDBMapper.newTableMapper(AccountEntity.class);
+            dynamoDBTableMapper.saveIfExists(accountEntity);
+            log.info("ARD-UL-01 updated accountEntity {} ", accountEntity);
+        }catch (Exception exception){
+            log.error("ARD-UL-02 error {} updating accountId {} limitValue {}", exception, accountId, limitValue);
+            throw exception;
+        }
     }
 
     private AccountEntity get(String accountId){
