@@ -2,13 +2,15 @@ package br.com.ctmait.remittanceserviceapi.domain.models.remittance;
 
 
 import br.com.ctmait.remittanceserviceapi.domain.models.account.Balance;
+import br.com.ctmait.remittanceserviceapi.domain.models.account.TransactionalLimit;
 import br.com.ctmait.remittanceserviceapi.domain.models.user.Document;
 
-public class Person {
+public class Payer {
     private String userId;
     private String userName;
     private String accountId;
     private Balance balance;
+    private TransactionalLimit limit;
     private Document document;
 
     public String getUserId() {
@@ -35,6 +37,14 @@ public class Person {
         this.accountId = accountId;
     }
 
+    public TransactionalLimit getLimit() {
+        return limit;
+    }
+
+    public void setLimit(TransactionalLimit limit) {
+        this.limit = limit;
+    }
+
     public Balance getBalance() {
         return balance;
     }
@@ -53,11 +63,12 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Person{" +
+        return "Payer{" +
                 "userId='" + userId + '\'' +
                 ", userName='" + userName + '\'' +
                 ", accountId='" + accountId + '\'' +
                 ", balance=" + balance +
+                ", limit=" + limit +
                 ", document=" + document +
                 '}';
     }

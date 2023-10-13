@@ -4,7 +4,7 @@ import br.com.ctmait.remittanceserviceapi.domain.models.account.Account;
 import br.com.ctmait.remittanceserviceapi.domain.models.account.Balance;
 import br.com.ctmait.remittanceserviceapi.domain.models.account.Currency;
 import br.com.ctmait.remittanceserviceapi.domain.models.account.TransactionalLimit;
-import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Person;
+import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Payer;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
 import br.com.ctmait.remittanceserviceapi.domain.models.user.Document;
 import br.com.ctmait.remittanceserviceapi.domain.models.user.DocumentType;
@@ -46,8 +46,8 @@ public class UtilTest {
         return remittance;
     }
 
-    public static Person generatePersonPfAccountDolar(){
-        var person = new Person();
+    public static Payer generatePersonPfAccountDolar(){
+        var person = new Payer();
         person.setAccountId(generateAccountPfDolar().getId());
         person.setUserId(generateUserPF().getId());
         person.setDocument(generateUserPF().getDocument());
@@ -55,8 +55,8 @@ public class UtilTest {
         person.setBalance(generateAccountPfDolar().getBalance());
         return person;
     }
-    public static Person generatePersonPjAccountDolar(){
-        var person = new Person();
+    public static Payer generatePersonPjAccountDolar(){
+        var person = new Payer();
         person.setAccountId(generateAccountPjDolar().getId());
         person.setUserId(generateUserPJ().getId());
         person.setDocument(generateUserPJ().getDocument());
@@ -64,8 +64,8 @@ public class UtilTest {
         person.setBalance(generateAccountPjDolar().getBalance());
         return person;
     }
-    public static Person generatePersonPfAccountReal(){
-        var person = new Person();
+    public static Payer generatePersonPfAccountReal(){
+        var person = new Payer();
         person.setAccountId(generateAccountPfReal().getId());
         person.setUserId(generateUserPF().getId());
         person.setDocument(generateUserPF().getDocument());
@@ -73,8 +73,8 @@ public class UtilTest {
         person.setBalance(generateAccountPfReal().getBalance());
         return person;
     }
-    public static Person generatePersonPjAccountReal(){
-        var person = new Person();
+    public static Payer generatePersonPjAccountReal(){
+        var person = new Payer();
         person.setAccountId(generateAccountPjReal().getId());
         person.setUserId(generateUserPJ().getId());
         person.setDocument(generateUserPJ().getDocument());

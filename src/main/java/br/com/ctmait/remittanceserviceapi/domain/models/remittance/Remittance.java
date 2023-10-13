@@ -7,8 +7,9 @@ public class Remittance {
 
     private String id;
     private BigDecimal value;
-    private Person payer;
-    private Person receiver;
+    private BigDecimal convertedValue;
+    private Payer payer;
+    private Payer receiver;
 
     public String getId() {
         return id;
@@ -26,23 +27,42 @@ public class Remittance {
         this.value = value;
     }
 
-    public Person getPayer() {
+    public BigDecimal getConvertedValue() {
+        return convertedValue;
+    }
+
+    public void setConvertedValue(BigDecimal convertedValue) {
+        this.convertedValue = convertedValue;
+    }
+
+    public Payer getPayer() {
         return payer;
     }
 
-    public void setPayer(Person payer) {
+    public void setPayer(Payer payer) {
         this.payer = payer;
     }
 
-    public Person getReceiver() {
+    public Payer getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(Person receiver) {
+    public void setReceiver(Payer receiver) {
         this.receiver = receiver;
     }
 
     public void visit(Consumer<Remittance> visitor) {
         visitor.accept(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Remittance{" +
+                "id='" + id + '\'' +
+                ", value=" + value +
+                ", convertedValue=" + convertedValue +
+                ", payer=" + payer +
+                ", receiver=" + receiver +
+                '}';
     }
 }

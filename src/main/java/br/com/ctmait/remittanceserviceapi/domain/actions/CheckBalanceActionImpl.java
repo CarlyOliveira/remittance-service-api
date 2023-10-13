@@ -48,7 +48,7 @@ public class CheckBalanceActionImpl implements CheckBalanceAction {
     }
 
     private void balanceReserve(Remittance remittance){
-        accountRepository.update(remittance.getPayer().getAccountId(), this.getNewBalanceValue(remittance));
+        accountRepository.updateBalance(remittance.getPayer().getAccountId(), this.getNewBalanceValue(remittance));
     }
 
     private BigDecimal getNewBalanceValue(Remittance remittance){

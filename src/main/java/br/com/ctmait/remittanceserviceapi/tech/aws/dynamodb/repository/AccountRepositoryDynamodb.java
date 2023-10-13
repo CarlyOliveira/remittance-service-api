@@ -41,7 +41,7 @@ public class AccountRepositoryDynamodb implements AccountRepository {
     }
 
     @Override
-    public void update(String accountId, BigDecimal balanceValue){
+    public void updateBalance(String accountId, BigDecimal balanceValue){
         log.info("ARD-U-00 update accountId {} balanceValue {}", accountId, balanceValue);
         try {
             Objects.requireNonNull(accountId, "accountId cannot null");
@@ -55,6 +55,11 @@ public class AccountRepositoryDynamodb implements AccountRepository {
             log.error("ARD-U-02 error {} updating accountId {} balanceValue {}", exception, accountId, balanceValue);
             throw exception;
         }
+    }
+
+    @Override
+    public void updateLimit(String accountId, BigDecimal balanceValue) {
+
     }
 
     private AccountEntity get(String accountId){
