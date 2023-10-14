@@ -43,9 +43,9 @@ public class RemittanceCreateValidationImplTest {
     }
 
     @Test
-    void validatePayerUserId() {
+    void validatePayerDocument() {
         var remittance = UtilTest.generateRemittancePfRealToPjDolar();
-        remittance.getPayer().setUserId(null);
+        remittance.getPayer().setDocument(null);
         assertThrows(RemittanceCreateValidationException.class, () -> remittance.visit(remittanceCreateValidation::execute));
     }
 
@@ -64,9 +64,9 @@ public class RemittanceCreateValidationImplTest {
     }
 
     @Test
-    void validateReceiverUserId() {
+    void validateReceiverDocument() {
         var remittance = UtilTest.generateRemittancePfRealToPjDolar();
-        remittance.getReceiver().setUserId(null);
+        remittance.getReceiver().setDocument(null);
         assertThrows(RemittanceCreateValidationException.class, () -> remittance.visit(remittanceCreateValidation::execute));
     }
 
