@@ -1,0 +1,23 @@
+{
+  "TableName": "tb_user",
+  "Item": {
+    "id": {
+      "S": "8f4e644c-c460-4dd5-a200-f1b2550d7743"
+    },
+    "name": {
+      "S": "Usuario de Teste Um"
+    },
+    "email": {
+      "S": "usuarioTesteUm@teste.com.br"
+    },
+    "password": {
+      "S": "123456"
+    },
+    "document": {
+      "S": "00011122233"
+    },
+    "documentType": {
+      "S": "CPF"
+    }
+  }
+}

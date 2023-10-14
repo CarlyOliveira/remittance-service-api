@@ -1,5 +1,5 @@
 {
-    "TableName": "tb_address",
+    "TableName": "tb_remittance",
     "AttributeDefinitions": [
         {
             "AttributeName": "id",

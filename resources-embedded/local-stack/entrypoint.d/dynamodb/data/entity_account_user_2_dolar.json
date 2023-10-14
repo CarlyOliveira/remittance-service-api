@@ -1,0 +1,23 @@
+{
+  "TableName": "tb_account",
+  "Item": {
+    "id": {
+      "S": "8f4e644c-c460-4dd5-a200-f1b2550d7788"
+    },
+    "ownerId": {
+      "S": "00011122233344"
+    },
+    "balanceValue": {
+      "S": "300000.00"
+    },
+    "balanceCurrency": {
+      "S": "DOLAR"
+    },
+    "limitValue": {
+      "S": "50000.00"
+    },
+    "limitCurrency": {
+      "S": "REAL"
+    }
+  }
+}

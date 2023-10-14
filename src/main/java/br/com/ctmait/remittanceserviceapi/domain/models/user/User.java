@@ -3,19 +3,10 @@ package br.com.ctmait.remittanceserviceapi.domain.models.user;
 
 public class User {
 
-    private String id;
     private String name;
     private String email;
     private String password;
     private Document document;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -52,7 +43,6 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", document=" + document +
