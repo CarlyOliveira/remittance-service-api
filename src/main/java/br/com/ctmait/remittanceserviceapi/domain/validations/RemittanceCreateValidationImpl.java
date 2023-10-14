@@ -4,6 +4,7 @@ import br.com.ctmait.remittanceserviceapi.abstraction.validations.RemittanceCrea
 import br.com.ctmait.remittanceserviceapi.domain.exceptions.RemittanceCreateValidationException;
 import br.com.ctmait.remittanceserviceapi.domain.exceptions.RemittanceException;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
+import br.com.ctmait.remittanceserviceapi.domain.models.user.Document;
 import br.com.ctmait.remittanceserviceapi.domain.models.user.DocumentType;
 import br.com.ctmait.remittanceserviceapi.tech.infrastructure.annotations.Validation;
 import org.slf4j.Logger;
@@ -68,7 +69,7 @@ public class RemittanceCreateValidationImpl implements RemittanceCreateValidatio
     private void validatePayerDocument(Remittance remittance, HashMap<String, String> errors){
         try {
             notNullOrEmpty(remittance.getPayer().getDocument().getValue(), " payer documentValue cannot null");
-            validateCpfOrCnpj(remittance);
+            validateCpfOrCnpj(remittance.getPayer().getDocument());
         }catch (Exception e){
             errors.put("payer documentValue", e.getMessage());
         }
@@ -94,7 +95,7 @@ public class RemittanceCreateValidationImpl implements RemittanceCreateValidatio
     private void validateReceiverDocument(Remittance remittance, HashMap<String, String> errors){
         try {
             notNullOrEmpty(remittance.getReceiver().getDocument().getValue(), " receiver documentValue cannot null");
-            validateCpfOrCnpj(remittance);
+            validateCpfOrCnpj(remittance.getReceiver().getDocument());
         }catch (Exception e){
             errors.put("receiver document", e.getMessage());
         }
@@ -126,8 +127,7 @@ public class RemittanceCreateValidationImpl implements RemittanceCreateValidatio
         }
     }
 
-    private void validateCpfOrCnpj(Remittance remittance){
-        var document = remittance.getPayer().getDocument();
+    private void validateCpfOrCnpj(Document document){
         if(document.getValue().length() == 11 && document.getDocumentType().equals(DocumentType.CPF) || document.getValue().length() == 14 && document.getDocumentType().equals(DocumentType.CNPJ) ){
             return;
         }
