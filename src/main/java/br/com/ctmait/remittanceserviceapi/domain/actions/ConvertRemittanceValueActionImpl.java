@@ -18,8 +18,8 @@ import java.util.Optional;
 public class ConvertRemittanceValueActionImpl implements ConvertRemittanceValueAction {
 
     private static final Logger log = LoggerFactory.getLogger(ConvertRemittanceValueActionImpl.class);
-    public static final String EXCHANGE_RATE_NAME = "exchangeRate";
-    public static final String REMITTANCE_VALUE_NAME = "remittanceValue";
+    private static final String EXCHANGE_RATE_NAME = "exchangeRate";
+    private static final String REMITTANCE_VALUE_NAME = "remittanceValue";
 
     @Override
     public void execute(Remittance remittance) throws CheckBalanceException, RemittanceException {
