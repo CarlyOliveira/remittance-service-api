@@ -1,5 +1,6 @@
 package br.com.ctmait.remittanceserviceapi.tech.rest.exceptions.handlers;
 
+import br.com.ctmait.remittanceserviceapi.domain.exceptions.*;
 import br.com.ctmait.remittanceserviceapi.tech.rest.exceptions.payload.ExceptionPayload;
 import br.com.ctmait.remittanceserviceapi.tech.rest.exceptions.service.ExceptionService;
 import lombok.RequiredArgsConstructor;
@@ -69,5 +70,69 @@ public class RemittanceServiceHandler {
                 exceptionService.generatePayload(ex),
                 HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(RemittanceCreateValidationException.class)
+    public ResponseEntity<ExceptionPayload> handleException(RemittanceCreateValidationException ex) {
+        return new ResponseEntity<ExceptionPayload>(
+                exceptionService.generatePayload(ex),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CheckBalanceException.class)
+    public ResponseEntity<ExceptionPayload> handleException(CheckBalanceException ex) {
+        return new ResponseEntity<ExceptionPayload>(
+                exceptionService.generatePayload(ex),
+                HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(CheckLimitException.class)
+    public ResponseEntity<ExceptionPayload> handleException(CheckLimitException ex) {
+        return new ResponseEntity<ExceptionPayload>(
+                exceptionService.generatePayload(ex),
+                HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+    @ExceptionHandler(GetExchangeRateActionException.class)
+    public ResponseEntity<ExceptionPayload> handleException(GetExchangeRateActionException ex) {
+        return new ResponseEntity<ExceptionPayload>(
+                exceptionService.generatePayload(ex),
+                HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+    @ExceptionHandler(GetExchangeRateIntegrationException.class)
+    public ResponseEntity<ExceptionPayload> handleException(GetExchangeRateIntegrationException ex) {
+        return new ResponseEntity<ExceptionPayload>(
+                exceptionService.generatePayload(ex),
+                HttpStatus.FAILED_DEPENDENCY);
+    }
+    @ExceptionHandler(ConvertRemittanceValueActionException.class)
+    public ResponseEntity<ExceptionPayload> handleException(ConvertRemittanceValueActionException ex) {
+        return new ResponseEntity<ExceptionPayload>(
+                exceptionService.generatePayload(ex),
+                HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+    @ExceptionHandler(RemittanceCreateProcessException.class)
+    public ResponseEntity<ExceptionPayload> handleException(RemittanceCreateProcessException ex) {
+        return new ResponseEntity<ExceptionPayload>(
+                exceptionService.generatePayload(ex),
+                HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+    @ExceptionHandler(RemittanceException.class)
+    public ResponseEntity<ExceptionPayload> handleException(RemittanceException ex) {
+        return new ResponseEntity<ExceptionPayload>(
+                exceptionService.generatePayload(ex),
+                HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+    @ExceptionHandler(RemittanceQueryActionException.class)
+    public ResponseEntity<ExceptionPayload> handleException(RemittanceQueryActionException ex) {
+        return new ResponseEntity<ExceptionPayload>(
+                exceptionService.generatePayload(ex),
+                HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+    @ExceptionHandler(RemittanceQueryProcessException.class)
+    public ResponseEntity<ExceptionPayload> handleException(RemittanceQueryProcessException ex) {
+        return new ResponseEntity<ExceptionPayload>(
+                exceptionService.generatePayload(ex),
+                HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
 
 }

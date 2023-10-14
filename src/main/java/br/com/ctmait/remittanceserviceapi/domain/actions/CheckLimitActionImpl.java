@@ -31,6 +31,7 @@ public class CheckLimitActionImpl implements CheckLimitAction {
         log.info("CLAI-E-00 Check limit for remittance {} started", remittance);
         try {
             Objects.requireNonNull(remittance, "remittance cannot null");
+            Objects.requireNonNull(remittance.getPayer(), "remittance payer cannot null");
             var accountPayer = accountRepository.getById(remittance.getPayer().getAccountId());
             remittance.getPayer().setLimit(accountPayer.getTransactionalLimitDaily());
             remittance.visit(this::checkLimit);
@@ -53,6 +54,6 @@ public class CheckLimitActionImpl implements CheckLimitAction {
     }
 
     private BigDecimal getNewLimitValue(Remittance remittance){
-        return remittance.getPayer().getLimit().getValue().subtract(remittance.getValue()).setScale(2, RoundingMode.HALF_DOWN);
+        return remittance.getPayer().getLimit().getValue().subtract(remittance.getValue()).setScale(5, RoundingMode.HALF_DOWN);
     }
 }

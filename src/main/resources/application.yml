@@ -23,7 +23,19 @@ aws:
 
 
 rest:
+  client:
+    exchangerate:
+      url: https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata
+      service: /CotacaoDolarDia(dataCotacao=@dataCotacao)
   resources:
     remmitanceserviceapi:
       response:
         base-path-location: /remittanceservice/api/v1/remittance
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: BASIC

@@ -1,6 +1,7 @@
 package br.com.ctmait.remittanceserviceapi.domain.models.remittance;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.function.Consumer;
 
 public class Remittance {
@@ -10,6 +11,8 @@ public class Remittance {
     private BigDecimal convertedValue;
     private Payer payer;
     private Payer receiver;
+    private BigDecimal exchangeRate;
+    private LocalDate exchangeRateDate;
 
     public String getId() {
         return id;
@@ -51,6 +54,22 @@ public class Remittance {
         this.receiver = receiver;
     }
 
+    public BigDecimal getExchangeRate() {
+        return exchangeRate;
+    }
+
+    public void setExchangeRate(BigDecimal exchangeRate) {
+        this.exchangeRate = exchangeRate;
+    }
+
+    public LocalDate getExchangeRateDate() {
+        return exchangeRateDate;
+    }
+
+    public void setExchangeRateDate(LocalDate exchangeRateDate) {
+        this.exchangeRateDate = exchangeRateDate;
+    }
+
     public void visit(Consumer<Remittance> visitor) {
         visitor.accept(this);
     }
@@ -63,6 +82,8 @@ public class Remittance {
                 ", convertedValue=" + convertedValue +
                 ", payer=" + payer +
                 ", receiver=" + receiver +
+                ", exchangeRate=" + exchangeRate +
+                ", exchangeRateDate=" + exchangeRateDate +
                 '}';
     }
 }

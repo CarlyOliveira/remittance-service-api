@@ -30,6 +30,7 @@ public class CheckBalanceActionImpl implements CheckBalanceAction {
         log.info("CBAI-E-00 Check balance for remittance {} started", remittance);
         try {
             Objects.requireNonNull(remittance, "remittance cannot null");
+            Objects.requireNonNull(remittance.getPayer(), "remittance payer cannot null");
             var accountPayer = accountRepository.getById(remittance.getPayer().getAccountId());
             remittance.getPayer().setBalance(accountPayer.getBalance());
             remittance.visit(this::checkBalance);
@@ -52,6 +53,6 @@ public class CheckBalanceActionImpl implements CheckBalanceAction {
     }
 
     private BigDecimal getNewBalanceValue(Remittance remittance){
-        return remittance.getPayer().getBalance().getValue().subtract(remittance.getValue()).setScale(2, RoundingMode.HALF_DOWN);
+        return remittance.getPayer().getBalance().getValue().subtract(remittance.getValue()).setScale(5, RoundingMode.HALF_DOWN);
     }
 }
