@@ -5,6 +5,7 @@ import br.com.ctmait.remittanceserviceapi.domain.models.account.Balance;
 import br.com.ctmait.remittanceserviceapi.domain.models.account.Currency;
 import br.com.ctmait.remittanceserviceapi.domain.models.account.TransactionalLimit;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Payer;
+import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Receiver;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
 import br.com.ctmait.remittanceserviceapi.domain.models.user.Document;
 import br.com.ctmait.remittanceserviceapi.domain.models.user.DocumentType;
@@ -25,62 +26,86 @@ public class UtilTest {
         var remittance = new Remittance();
         remittance.setId(UUID.randomUUID().toString());
         remittance.setValue(REMITTANCE_VALUE);
-        remittance.setPayer(generatePersonPfAccountReal());
-        remittance.setReceiver(generatePersonPjAccountDolar());
+        remittance.setPayer(generatePayerPfAccountReal());
+        remittance.setReceiver(generateReceiverPjAccountDolar());
         return remittance;
     }
     public static Remittance generateRemittancePjDolarToPfReal(){
         var remittance = new Remittance();
         remittance.setId(UUID.randomUUID().toString());
         remittance.setValue(REMITTANCE_VALUE);
-        remittance.setPayer(generatePersonPjAccountDolar());
-        remittance.setReceiver(generatePersonPfAccountReal());
+        remittance.setPayer(generatePayerPjAccountDolar());
+        remittance.setReceiver(generateReceiverPfAccountReal());
         return remittance;
     }
     public static Remittance generateRemittancePjDolarToPjReal(){
         var remittance = new Remittance();
         remittance.setId(UUID.randomUUID().toString());
         remittance.setValue(REMITTANCE_VALUE);
-        remittance.setPayer(generatePersonPjAccountDolar());
-        remittance.setReceiver(generatePersonPjAccountReal());
+        remittance.setPayer(generatePayerPjAccountDolar());
+        remittance.setReceiver(generateReceiverPjAccountReal());
         return remittance;
     }
 
-    public static Payer generatePersonPfAccountDolar(){
-        var person = new Payer();
-        person.setAccountId(generateAccountPfDolar().getId());
-        person.setUserId(generateUserPF().getId());
-        person.setDocument(generateUserPF().getDocument());
-        person.setUserName(generateUserPF().getName());
-        person.setBalance(generateAccountPfDolar().getBalance());
-        return person;
+    public static Payer generatePayerPfAccountDolar(){
+        var payer = new Payer();
+        payer.setAccountId(generateAccountPfDolar().getId());
+        payer.setUserId(generateUserPF().getId());
+        payer.setDocument(generateUserPF().getDocument());
+        payer.setUserName(generateUserPF().getName());
+        payer.setBalance(generateAccountPfDolar().getBalance());
+        return payer;
     }
-    public static Payer generatePersonPjAccountDolar(){
-        var person = new Payer();
-        person.setAccountId(generateAccountPjDolar().getId());
-        person.setUserId(generateUserPJ().getId());
-        person.setDocument(generateUserPJ().getDocument());
-        person.setUserName(generateUserPJ().getName());
-        person.setBalance(generateAccountPjDolar().getBalance());
-        return person;
+    public static Payer generatePayerPjAccountDolar(){
+        var payer = new Payer();
+        payer.setAccountId(generateAccountPjDolar().getId());
+        payer.setUserId(generateUserPJ().getId());
+        payer.setDocument(generateUserPJ().getDocument());
+        payer.setUserName(generateUserPJ().getName());
+        payer.setBalance(generateAccountPjDolar().getBalance());
+        return payer;
     }
-    public static Payer generatePersonPfAccountReal(){
-        var person = new Payer();
-        person.setAccountId(generateAccountPfReal().getId());
-        person.setUserId(generateUserPF().getId());
-        person.setDocument(generateUserPF().getDocument());
-        person.setUserName(generateUserPF().getName());
-        person.setBalance(generateAccountPfReal().getBalance());
-        return person;
+    public static Receiver generateReceiverPjAccountDolar(){
+        var receiver = new Receiver();
+        receiver.setAccountId(generateAccountPjDolar().getId());
+        receiver.setUserId(generateUserPJ().getId());
+        receiver.setDocument(generateUserPJ().getDocument());
+        receiver.setUserName(generateUserPJ().getName());
+        return receiver;
     }
-    public static Payer generatePersonPjAccountReal(){
-        var person = new Payer();
-        person.setAccountId(generateAccountPjReal().getId());
-        person.setUserId(generateUserPJ().getId());
-        person.setDocument(generateUserPJ().getDocument());
-        person.setUserName(generateUserPJ().getName());
-        person.setBalance(generateAccountPjReal().getBalance());
-        return person;
+    public static Payer generatePayerPfAccountReal(){
+        var payer = new Payer();
+        payer.setAccountId(generateAccountPfReal().getId());
+        payer.setUserId(generateUserPF().getId());
+        payer.setDocument(generateUserPF().getDocument());
+        payer.setUserName(generateUserPF().getName());
+        payer.setBalance(generateAccountPfReal().getBalance());
+        return payer;
+    }
+    public static Receiver generateReceiverPfAccountReal(){
+        var receiver = new Receiver();
+        receiver.setAccountId(generateAccountPfReal().getId());
+        receiver.setUserId(generateUserPF().getId());
+        receiver.setDocument(generateUserPF().getDocument());
+        receiver.setUserName(generateUserPF().getName());
+        return receiver;
+    }
+    public static Payer generatePayerPjAccountReal(){
+        var payer = new Payer();
+        payer.setAccountId(generateAccountPjReal().getId());
+        payer.setUserId(generateUserPJ().getId());
+        payer.setDocument(generateUserPJ().getDocument());
+        payer.setUserName(generateUserPJ().getName());
+        payer.setBalance(generateAccountPjReal().getBalance());
+        return payer;
+    }
+    public static Receiver generateReceiverPjAccountReal(){
+        var payer = new Receiver();
+        payer.setAccountId(generateAccountPjReal().getId());
+        payer.setUserId(generateUserPJ().getId());
+        payer.setDocument(generateUserPJ().getDocument());
+        payer.setUserName(generateUserPJ().getName());
+        return payer;
     }
 
     public static Account generateAccountPfReal(){

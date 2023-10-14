@@ -10,7 +10,7 @@ public class Remittance {
     private BigDecimal value;
     private BigDecimal convertedValue;
     private Payer payer;
-    private Payer receiver;
+    private Receiver receiver;
     private BigDecimal exchangeRate;
     private LocalDate exchangeRateDate;
 
@@ -46,11 +46,11 @@ public class Remittance {
         this.payer = payer;
     }
 
-    public Payer getReceiver() {
+    public Receiver getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(Payer receiver) {
+    public void setReceiver(Receiver receiver) {
         this.receiver = receiver;
     }
 
