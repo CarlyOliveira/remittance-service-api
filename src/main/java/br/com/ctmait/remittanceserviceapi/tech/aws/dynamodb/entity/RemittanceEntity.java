@@ -13,8 +13,6 @@ public class RemittanceEntity {
 
     @DynamoDBHashKey(attributeName = "id")
     private String id;
-    @DynamoDBAttribute(attributeName = "ownerId")
-    private String ownerId;
     @DynamoDBAttribute(attributeName = "value")
     private String value;
     @DynamoDBAttribute(attributeName = "convertedValue")
