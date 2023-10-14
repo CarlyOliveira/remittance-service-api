@@ -24,7 +24,7 @@ public class Document {
 
     @Override
     public String toString() {
-        return "Balance{" +
+        return "Document{" +
                 "value=" + value +
                 ", documentType=" + documentType +
                 '}';
