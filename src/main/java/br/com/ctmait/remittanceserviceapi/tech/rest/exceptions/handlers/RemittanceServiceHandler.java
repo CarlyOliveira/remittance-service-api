@@ -127,6 +127,12 @@ public class RemittanceServiceHandler {
                 exceptionService.generatePayload(ex),
                 HttpStatus.UNPROCESSABLE_ENTITY);
     }
+    @ExceptionHandler(RemittanceEffectivationActionException.class)
+    public ResponseEntity<ExceptionPayload> handleException(RemittanceEffectivationActionException ex) {
+        return new ResponseEntity<ExceptionPayload>(
+                exceptionService.generatePayload(ex),
+                HttpStatus.BAD_REQUEST);
+    }
 
 
 }

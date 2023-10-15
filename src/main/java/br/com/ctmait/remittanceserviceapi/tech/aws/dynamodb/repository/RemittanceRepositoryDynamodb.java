@@ -9,6 +9,7 @@ import br.com.ctmait.remittanceserviceapi.tech.aws.dynamodb.entity.RemittanceEnt
 import br.com.ctmait.remittanceserviceapi.tech.infrastructure.repository.RemittanceRepository;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTableMapper;
+import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,8 +52,11 @@ public class RemittanceRepositoryDynamodb implements RemittanceRepository {
             DynamoDBTableMapper<RemittanceEntity, String, ?> dynamoDBTableMapper = dynamoDBMapper.newTableMapper(RemittanceEntity.class);
             dynamoDBTableMapper.saveIfNotExists(remittanceEntity);
             log.info("RRD-I-01 created remittance {} ", remittanceEntity);
+        }catch (ConditionalCheckFailedException exception){
+            log.error("RRD-I-02 error {} already exists remittance {} ", exception, remittance);
+            throw exception;
         }catch (Exception exception){
-            log.error("RRD-I-02 error {} creating remittance {} ", exception, remittance);
+            log.error("RRD-I-03 error {} creating remittance {} ", exception, remittance);
             throw exception;
         }
     }
