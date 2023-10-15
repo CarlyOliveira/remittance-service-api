@@ -21,7 +21,7 @@ public class RemittanceQueryProcessImpl implements RemittanceQueryProcess {
     }
 
     @Override
-    public void execute(Remittance remittance) throws RemittanceQueryActionException, RemittanceCreateProcessException {
+    public void execute(Remittance remittance) throws RemittanceNotFoundException, RemittanceQueryActionException, RemittanceCreateProcessException {
 
         log.info("RCPI-E-00 Remittance query process for remittance {} started", remittance);
         try {
@@ -29,11 +29,14 @@ public class RemittanceQueryProcessImpl implements RemittanceQueryProcess {
             Objects.requireNonNull(remittance.getId(), "remittance id cannot null");
             remittance.visit(remittanceQueryAction::execute);
             log.info("RCPI-E-01 Remittance query process for remittance {} finished", remittance);
+        }catch (RemittanceNotFoundException exception){
+            log.error("RCPI-E-02 Remittance query process for remittance {} remittance not found error {} ", remittance, exception);
+            throw exception;
         }catch (RemittanceQueryActionException exception){
-            log.error("RCPI-E-02 Remittance query process for remittance {} error on query action {} ", remittance, exception);
+            log.error("RCPI-E-03 Remittance query process for remittance {} error on query action {} ", remittance, exception);
             throw exception;
         }catch (Exception exception){
-            log.error("RCPI-E-03 Remittance query process for remittance {} error on query process{} ", remittance, exception);
+            log.error("RCPI-E-04 Remittance query process for remittance {} error on query process{} ", remittance, exception);
             throw new RemittanceCreateProcessException(exception);
         }
     }

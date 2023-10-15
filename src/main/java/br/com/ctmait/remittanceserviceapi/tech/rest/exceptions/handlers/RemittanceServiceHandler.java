@@ -133,6 +133,10 @@ public class RemittanceServiceHandler {
                 exceptionService.generatePayload(ex),
                 HttpStatus.BAD_REQUEST);
     }
-
-
+    @ExceptionHandler(RemittanceNotFoundException.class)
+    public ResponseEntity<ExceptionPayload> handleException(RemittanceNotFoundException ex) {
+        return new ResponseEntity<ExceptionPayload>(
+                exceptionService.generatePayload(ex),
+                HttpStatus.NOT_FOUND);
+    }
 }

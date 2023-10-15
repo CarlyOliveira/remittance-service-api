@@ -1,5 +1,6 @@
 package br.com.ctmait.remittanceserviceapi.tech.aws.dynamodb.repository;
 
+import br.com.ctmait.remittanceserviceapi.domain.exceptions.RemittanceNotFoundException;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Payer;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Receiver;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Optional;
 
 
 @Repository
@@ -29,16 +31,16 @@ public class RemittanceRepositoryDynamodb implements RemittanceRepository {
     private final DynamoDBMapper dynamoDBMapper;
 
     @Override
-    public Remittance getById(String remittanceId){
-        log.info("RRD-GBI-00 get remittance by id {}", remittanceId);
+    public void load(Remittance remittance){
+        log.info("RRD-L-00 load remittance {}", remittance);
         try {
-            Objects.requireNonNull(remittanceId, "remittanceId cannot null");
-            var remittanceEntity = this.get(remittanceId);
-            var remittance = this.convert(remittanceEntity);
-            log.info("RRD-GBI-01 get return remittance {}", remittance);
-            return remittance;
+            Objects.requireNonNull(remittance, "remittance cannot null");
+            Objects.requireNonNull(remittance.getId(), "remittance Id cannot null");
+            var remittanceEntity = this.get(remittance.getId());
+            this.loadRemittance(remittance, remittanceEntity);
+            log.info("RRD-L-01 loaded remittance {}", remittance);
         }catch (Exception exception){
-            log.error("RRD-GBI-02 error {} get remittance by id {} ", exception, remittanceId);
+            log.error("RRD-L-02 error {} load remittance {} ", exception, remittance);
             throw exception;
         }
     }
@@ -65,15 +67,15 @@ public class RemittanceRepositoryDynamodb implements RemittanceRepository {
         try {
             Objects.requireNonNull(remittanceId, "remittanceId cannot null");
             var remittanceEntity = dynamoDBMapper.load(RemittanceEntity.class, remittanceId);
-            return remittanceEntity;
+
+            return Optional.ofNullable(remittanceEntity)
+                    .orElseThrow(() -> new RemittanceNotFoundException("remittance id " + remittanceId + " not found"));
         }catch (Exception e){
             throw e;
         }
     }
 
-    private Remittance convert (RemittanceEntity remittanceEntity){
-        var remittance = new Remittance();
-        remittance.setId(remittanceEntity.getId());
+    private void loadRemittance(Remittance remittance, RemittanceEntity remittanceEntity){
         remittance.setValue(new BigDecimal(remittanceEntity.getValue()));
         remittance.setExchangeRateDate(LocalDate.parse(remittanceEntity.getExchangeRateDate()));
         remittance.setConvertedValue(new BigDecimal(remittanceEntity.getConvertedValue()));
@@ -97,8 +99,6 @@ public class RemittanceRepositoryDynamodb implements RemittanceRepository {
         receiverDocument.setDocumentType(DocumentType.getByCode(remittanceEntity.getPayerDocumentType()));
         receiver.setDocument(payerDocument);
         remittance.setReceiver(receiver);
-
-        return remittance;
     }
     private RemittanceEntity convert (Remittance remittance){
         var remittanceEntity = new RemittanceEntity();
