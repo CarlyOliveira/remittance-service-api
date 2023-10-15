@@ -33,9 +33,9 @@ altere o endereço dos recursos acessados no application.yml
 3 - Na pasta recursos-embedded, execute o start-local-stack.sh para subir
 a infra provendo os serviços da aws.
 </br>
-4 - Na pasta raiz do projeto gere a imagem: docker build . -t remittanceserviceapi .
+4 - Na pasta raiz do projeto gere a imagem: docker build -t remittanceserviceapi .
 </br>
-5 - Crie/execute o container com a imagem do projeto: docker run -e "SPRING_PROFILES_ACTIVE=local" --name remittance-service-api remittanceserviceapi
+5 - Crie/execute o container com a imagem do projeto: docker run --name remittance-service-api -p 8085:8085 remittanceserviceapi
 </br>
 6 - Import a collection no postman e consuma os serviços.
 </br>
