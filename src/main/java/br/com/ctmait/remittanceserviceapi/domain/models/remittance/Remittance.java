@@ -2,6 +2,7 @@ package br.com.ctmait.remittanceserviceapi.domain.models.remittance;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.function.Consumer;
 
 public class Remittance {
@@ -13,6 +14,8 @@ public class Remittance {
     private Receiver receiver;
     private BigDecimal exchangeRate;
     private LocalDate exchangeRateDate;
+    private ZonedDateTime remittanceCreateDate;
+    private RemittanceStatus remittanceStatus;
 
     public String getId() {
         return id;
@@ -70,6 +73,22 @@ public class Remittance {
         this.exchangeRateDate = exchangeRateDate;
     }
 
+    public ZonedDateTime getRemittanceCreateDate() {
+        return remittanceCreateDate;
+    }
+
+    public void setRemittanceCreateDate(ZonedDateTime remittanceCreateDate) {
+        this.remittanceCreateDate = remittanceCreateDate;
+    }
+
+    public RemittanceStatus getRemittanceStatus() {
+        return remittanceStatus;
+    }
+
+    public void setRemittanceStatus(RemittanceStatus remittanceStatus) {
+        this.remittanceStatus = remittanceStatus;
+    }
+
     public void visit(Consumer<Remittance> visitor) {
         visitor.accept(this);
     }
@@ -84,6 +103,8 @@ public class Remittance {
                 ", receiver=" + receiver +
                 ", exchangeRate=" + exchangeRate +
                 ", exchangeRateDate=" + exchangeRateDate +
+                ", remittanceCreateDate=" + remittanceCreateDate +
+                ", remittanceStatus=" + remittanceStatus +
                 '}';
     }
 }

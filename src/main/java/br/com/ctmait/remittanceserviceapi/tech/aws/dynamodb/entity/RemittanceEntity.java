@@ -41,5 +41,9 @@ public class RemittanceEntity {
     private String receiverDocument;
     @DynamoDBAttribute(attributeName = "receiverDocumentType")
     private String receiverDocumentType;
+    @DynamoDBAttribute(attributeName = "remittanceCreateDate")
+    private String remittanceCreateDate;
+    @DynamoDBAttribute(attributeName = "remittanceStatus")
+    private String remittanceStatus;
 
 }

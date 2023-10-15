@@ -2,7 +2,9 @@ package br.com.ctmait.remittanceserviceapi.tech.rest.payload.out;
 
 public record RemittancePayloadOutR(String id,
                                     String value,
+                                    String valueCurrency,
                                     String convertedValue,
+                                    String convertedValueCurrency,
                                     String exchangeRate,
                                     String exchangeRateDate,
                                     String payerName,
@@ -12,6 +14,8 @@ public record RemittancePayloadOutR(String id,
                                     String receiverName,
                                     String receiverAccountId,
                                     String receiverDocument,
-                                    String receiverDocumentType) {
+                                    String receiverDocumentType,
+                                    String remittanceCreateDate,
+                                    String remittanceStatus) {
 
 }

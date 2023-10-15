@@ -2,9 +2,12 @@ package br.com.ctmait.remittanceserviceapi.tech.aws.dynamodb.repository;
 
 import br.com.ctmait.remittanceserviceapi.domain.exceptions.RemittanceAlreadyExistsException;
 import br.com.ctmait.remittanceserviceapi.domain.exceptions.RemittanceNotFoundException;
+import br.com.ctmait.remittanceserviceapi.domain.models.account.Balance;
+import br.com.ctmait.remittanceserviceapi.domain.models.account.Currency;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Payer;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Receiver;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
+import br.com.ctmait.remittanceserviceapi.domain.models.remittance.RemittanceStatus;
 import br.com.ctmait.remittanceserviceapi.domain.models.user.Document;
 import br.com.ctmait.remittanceserviceapi.domain.models.user.DocumentType;
 import br.com.ctmait.remittanceserviceapi.tech.aws.dynamodb.entity.RemittanceEntity;
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -85,6 +89,9 @@ public class RemittanceRepositoryDynamodb implements RemittanceRepository {
         var payer = new Payer();
         payer.setUserName(remittanceEntity.getPayerName());
         payer.setAccountId(remittanceEntity.getPayerAccountId());
+        var payerBalance = new Balance();
+        payerBalance.setCurrency(Currency.getByCode(remittanceEntity.getValueCurrency()));
+        payer.setBalance(payerBalance);
 
         var payerDocument= new Document();
         payerDocument.setValue(remittanceEntity.getPayerDocument());
@@ -95,11 +102,15 @@ public class RemittanceRepositoryDynamodb implements RemittanceRepository {
         var receiver = new Receiver();
         receiver.setUserName(remittanceEntity.getReceiverName());
         receiver.setAccountId(remittanceEntity.getReceiverAccountId());
+        receiver.setAccountCurrency(Currency.getByCode(remittanceEntity.getConvertedValueCurrency()));
         var receiverDocument= new Document();
         receiverDocument.setValue(remittanceEntity.getReceiverDocument());
         receiverDocument.setDocumentType(DocumentType.getByCode(remittanceEntity.getReceiverDocumentType()));
         receiver.setDocument(receiverDocument);
         remittance.setReceiver(receiver);
+
+        remittance.setRemittanceStatus(RemittanceStatus.getByCode(remittanceEntity.getRemittanceStatus()));
+        remittance.setRemittanceCreateDate(ZonedDateTime.parse(remittanceEntity.getRemittanceCreateDate()));
     }
     private RemittanceEntity convert (Remittance remittance){
         var remittanceEntity = new RemittanceEntity();
@@ -119,6 +130,12 @@ public class RemittanceRepositoryDynamodb implements RemittanceRepository {
         remittanceEntity.setReceiverDocument(remittance.getReceiver().getDocument().getValue());
         remittanceEntity.setReceiverName(remittance.getReceiver().getUserName());
         remittanceEntity.setReceiverDocumentType(remittance.getReceiver().getDocument().getDocumentType().getCode());
+
+        remittanceEntity.setValueCurrency(remittance.getPayer().getBalance().getCurrency().getCode());
+        remittanceEntity.setConvertedValueCurrency(remittance.getReceiver().getAccountCurrency().getCode());
+
+        remittanceEntity.setRemittanceCreateDate(ZonedDateTime.now().toString());
+        remittanceEntity.setRemittanceStatus(RemittanceStatus.EFETIVADO.getCode());
 
         return remittanceEntity;
     }

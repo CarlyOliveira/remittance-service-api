@@ -2,7 +2,6 @@ package br.com.ctmait.remittanceserviceapi.tech.rest.mapper;
 
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
 import br.com.ctmait.remittanceserviceapi.tech.rest.payload.in.RemittancePayloadIn;
-import br.com.ctmait.remittanceserviceapi.tech.rest.payload.out.RemittancePayloadOut;
 import br.com.ctmait.remittanceserviceapi.tech.rest.payload.out.RemittancePayloadOutR;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -32,5 +31,10 @@ public interface RemittanceMapper {
     @Mapping(source = "source.receiver.accountId", target = "receiverAccountId")
     @Mapping(source = "source.receiver.document.value", target = "receiverDocument")
     @Mapping(source = "source.receiver.document.documentType", target = "receiverDocumentType")
+    @Mapping(source = "source.remittanceCreateDate", target = "remittanceCreateDate")
+    @Mapping(source = "source.remittanceStatus", target = "remittanceStatus")
+    @Mapping(source = "source.payer.balance.currency", target = "valueCurrency")
+    @Mapping(source = "source.receiver.accountCurrency", target = "convertedValueCurrency")
+
     RemittancePayloadOutR map (Remittance source);
 }
