@@ -6,10 +6,6 @@ server:
 spring:
   application:
     name: remittanceserviceapi
-#  jpa:
-#    show-sql: 'true'
-#    hibernate:
-#      ddl-auto: 'update'
 
 aws:
   credentials:

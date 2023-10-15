@@ -1,6 +1,5 @@
 package br.com.ctmait.remittanceserviceapi.tech.rest.exceptions.handlers;
 
-import br.com.ctmait.remittanceserviceapi.abstraction.actions.ReceiverEnrichmentAction;
 import br.com.ctmait.remittanceserviceapi.domain.exceptions.*;
 import br.com.ctmait.remittanceserviceapi.tech.rest.exceptions.payload.ExceptionPayload;
 import br.com.ctmait.remittanceserviceapi.tech.rest.exceptions.service.ExceptionService;
@@ -106,12 +105,6 @@ public class RemittanceServiceHandler {
     }
     @ExceptionHandler(RemittanceCreateProcessException.class)
     public ResponseEntity<ExceptionPayload> handleException(RemittanceCreateProcessException ex) {
-        return new ResponseEntity<ExceptionPayload>(
-                exceptionService.generatePayload(ex),
-                HttpStatus.UNPROCESSABLE_ENTITY);
-    }
-    @ExceptionHandler(RemittanceException.class)
-    public ResponseEntity<ExceptionPayload> handleException(RemittanceException ex) {
         return new ResponseEntity<ExceptionPayload>(
                 exceptionService.generatePayload(ex),
                 HttpStatus.UNPROCESSABLE_ENTITY);

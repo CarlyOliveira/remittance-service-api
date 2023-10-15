@@ -1,6 +1,5 @@
 package br.com.ctmait.remittanceserviceapi.tech.aws.dynamodb.repository;
 
-import br.com.ctmait.remittanceserviceapi.domain.exceptions.RemittanceNotFoundException;
 import br.com.ctmait.remittanceserviceapi.domain.exceptions.UserNotFoundException;
 import br.com.ctmait.remittanceserviceapi.domain.models.user.Document;
 import br.com.ctmait.remittanceserviceapi.domain.models.user.DocumentType;

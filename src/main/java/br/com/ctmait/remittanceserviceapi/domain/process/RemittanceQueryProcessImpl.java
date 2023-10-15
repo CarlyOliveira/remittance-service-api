@@ -21,7 +21,7 @@ public class RemittanceQueryProcessImpl implements RemittanceQueryProcess {
     }
 
     @Override
-    public void execute(Remittance remittance) throws RemittanceNotFoundException, RemittanceQueryActionException, RemittanceCreateProcessException {
+    public void execute(Remittance remittance) throws RemittanceNotFoundException, RemittanceQueryActionException, RemittanceQueryProcessException {
 
         log.info("RCPI-E-00 Remittance query process for remittance {} started", remittance);
         try {
@@ -37,7 +37,7 @@ public class RemittanceQueryProcessImpl implements RemittanceQueryProcess {
             throw exception;
         }catch (Exception exception){
             log.error("RCPI-E-04 Remittance query process for remittance {} error on query process{} ", remittance, exception);
-            throw new RemittanceCreateProcessException(exception);
+            throw new RemittanceQueryProcessException(exception);
         }
     }
 }

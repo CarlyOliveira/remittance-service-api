@@ -2,7 +2,6 @@ package br.com.ctmait.remittanceserviceapi.domain.validations;
 
 import br.com.ctmait.remittanceserviceapi.abstraction.validations.RemittanceCreateValidation;
 import br.com.ctmait.remittanceserviceapi.domain.exceptions.RemittanceCreateValidationException;
-import br.com.ctmait.remittanceserviceapi.domain.exceptions.RemittanceException;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
 import br.com.ctmait.remittanceserviceapi.domain.models.user.Document;
 import br.com.ctmait.remittanceserviceapi.domain.models.user.DocumentType;
@@ -19,7 +18,7 @@ public class RemittanceCreateValidationImpl implements RemittanceCreateValidatio
     private static final Logger log = LoggerFactory.getLogger(RemittanceCreateValidationImpl.class);
 
     @Override
-    public void execute(Remittance remittance) throws RemittanceCreateValidationException, RemittanceException {
+    public void execute(Remittance remittance){
 
         log.info("RCVI-E-00 Validate remittance {} in create process", remittance);
         HashMap<String, String> errors = new HashMap<>();
