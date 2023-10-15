@@ -6,20 +6,11 @@ import br.com.ctmait.remittanceserviceapi.domain.models.account.TransactionalLim
 import br.com.ctmait.remittanceserviceapi.domain.models.user.Document;
 
 public class Payer {
-    private String userId;
     private String userName;
     private String accountId;
     private Balance balance;
     private TransactionalLimit limit;
     private Document document;
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 
     public String getUserName() {
         return userName;
@@ -64,7 +55,6 @@ public class Payer {
     @Override
     public String toString() {
         return "Payer{" +
-                "userId='" + userId + '\'' +
                 ", userName='" + userName + '\'' +
                 ", accountId='" + accountId + '\'' +
                 ", balance=" + balance +

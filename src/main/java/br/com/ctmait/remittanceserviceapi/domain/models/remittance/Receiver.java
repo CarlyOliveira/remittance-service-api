@@ -1,21 +1,14 @@
 package br.com.ctmait.remittanceserviceapi.domain.models.remittance;
 
 
+import br.com.ctmait.remittanceserviceapi.domain.models.account.Currency;
 import br.com.ctmait.remittanceserviceapi.domain.models.user.Document;
 
 public class Receiver {
-    private String userId;
     private String userName;
     private String accountId;
+    private Currency accountCurrency;
     private Document document;
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 
     public String getUserName() {
         return userName;
@@ -33,6 +26,14 @@ public class Receiver {
         this.accountId = accountId;
     }
 
+    public Currency getAccountCurrency() {
+        return accountCurrency;
+    }
+
+    public void setAccountCurrency(Currency accountCurrency) {
+        this.accountCurrency = accountCurrency;
+    }
+
     public Document getDocument() {
         return document;
     }
@@ -44,9 +45,9 @@ public class Receiver {
     @Override
     public String toString() {
         return "Receiver{" +
-                "userId='" + userId + '\'' +
-                ", userName='" + userName + '\'' +
+                "userName='" + userName + '\'' +
                 ", accountId='" + accountId + '\'' +
+                ", accountCurrency=" + accountCurrency +
                 ", document=" + document +
                 '}';
     }
