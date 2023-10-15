@@ -6,6 +6,7 @@ import br.com.ctmait.remittanceserviceapi.domain.models.account.Account;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
 import br.com.ctmait.remittanceserviceapi.tech.infrastructure.annotations.Action;
 import br.com.ctmait.remittanceserviceapi.tech.infrastructure.repository.AccountRepository;
+import br.com.ctmait.remittanceserviceapi.tech.infrastructure.repository.RemittanceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,11 +19,12 @@ public class RemittanceEffectivationActionImpl implements RemittanceEffectivatio
 
     private static final Logger log = LoggerFactory.getLogger(RemittanceEffectivationActionImpl.class);
     private final AccountRepository accountRepository;
+    private final RemittanceRepository remittanceRepository;
 
-    public RemittanceEffectivationActionImpl(AccountRepository accountRepository) {
+    public RemittanceEffectivationActionImpl(AccountRepository accountRepository, RemittanceRepository remittanceRepository) {
         this.accountRepository = accountRepository;
+        this.remittanceRepository = remittanceRepository;
     }
-
 
     @Override
     public void execute(Remittance remittance){
@@ -33,6 +35,7 @@ public class RemittanceEffectivationActionImpl implements RemittanceEffectivatio
             Objects.requireNonNull(remittance.getReceiver(), "remittance receiver cannot null");
             var accountReceiver = accountRepository.getById(remittance.getReceiver().getAccountId());
             accountRepository.updateBalance(remittance.getReceiver().getAccountId(), this.getNewBalanceValue(accountReceiver, remittance.getConvertedValue()));
+            remittance.visit(remittanceRepository::insert);
             log.info("REAI-E-01 Effectivation for remittance {} finished", remittance);
         }catch (Exception exception){
             log.error("REAI-E-02 Effectivation for remittance {} error {} ", remittance, exception);

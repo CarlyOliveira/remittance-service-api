@@ -99,10 +99,10 @@ public class RemittanceRepositoryDynamodb implements RemittanceRepository {
     private RemittanceEntity convert (Remittance remittance){
         var remittanceEntity = new RemittanceEntity();
 
-        remittanceEntity.setId(remittanceEntity.getId());
+        remittanceEntity.setId(remittance.getId());
         remittanceEntity.setConvertedValue(remittance.getConvertedValue().toPlainString());
         remittanceEntity.setExchangeRate(remittance.getExchangeRate().toPlainString());
-        remittanceEntity.setExchangeRateDate(remittanceEntity.getExchangeRateDate());
+        remittanceEntity.setExchangeRateDate(remittance.getExchangeRateDate().toString());
         remittanceEntity.setValue(remittance.getValue().toPlainString());
 
         remittanceEntity.setPayerAccountId(remittance.getPayer().getAccountId());
