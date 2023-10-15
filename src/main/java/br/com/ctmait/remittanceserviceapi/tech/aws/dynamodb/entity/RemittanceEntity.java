@@ -15,8 +15,12 @@ public class RemittanceEntity {
     private String id;
     @DynamoDBAttribute(attributeName = "value")
     private String value;
+    @DynamoDBAttribute(attributeName = "valueCurrency")
+    private String valueCurrency;
     @DynamoDBAttribute(attributeName = "convertedValue")
     private String convertedValue;
+    @DynamoDBAttribute(attributeName = "convertedValueCurrency")
+    private String convertedValueCurrency;
     @DynamoDBAttribute(attributeName = "exchangeRate")
     private String exchangeRate;
     @DynamoDBAttribute(attributeName = "exchangeRateDate")
