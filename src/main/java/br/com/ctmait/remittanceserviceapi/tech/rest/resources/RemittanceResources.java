@@ -1,10 +1,11 @@
 package br.com.ctmait.remittanceserviceapi.tech.rest.resources;
 
 import br.com.ctmait.remittanceserviceapi.abstraction.process.RemittanceCreateProcess;
+import br.com.ctmait.remittanceserviceapi.abstraction.process.RemittanceQueryProcess;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
 import br.com.ctmait.remittanceserviceapi.tech.rest.mapper.RemittanceMapper;
 import br.com.ctmait.remittanceserviceapi.tech.rest.payload.in.RemittancePayloadIn;
-import br.com.ctmait.remittanceserviceapi.tech.rest.payload.out.RemittancePayloadOut;
+import br.com.ctmait.remittanceserviceapi.tech.rest.payload.out.RemittancePayloadOutR;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,13 +26,11 @@ public class RemittanceResources {
     private String RESPONSE_CREATE_BASE_PATH_URI;
 
     private final RemittanceCreateProcess remittanceCreateProcess;
+    private final RemittanceQueryProcess remittanceQueryProcess;
 
     @GetMapping("/v1/remittance/status")
     public ResponseEntity<String> on() {
         log.info("RS-O-00 Remittance status");
-        var remittance = new Remittance();
-        remittance.visit(remittanceCreateProcess::execute);
-        System.out.println(remittance);
         return ResponseEntity.ok("Remittance Service ON");
     }
 
@@ -57,12 +56,25 @@ public class RemittanceResources {
     }
 
     @GetMapping("/v1/remittance/{id}")
-    public ResponseEntity<RemittancePayloadOut> getRemittance(@PathVariable String id,
-                                                              @RequestHeader(value = "transactionId", required = true) String transactionId) {
+    public ResponseEntity<RemittancePayloadOutR> getRemittance(@PathVariable String id,
+                                                               @RequestHeader(value = "transactionId", required = true) String transactionId) {
 
-        //TODO Implementar
+        log.info("RR-GR-00 get remittance id {} transactionId {}", id, transactionId);
 
-        return ResponseEntity.ok(new RemittancePayloadOut());
+        var remittance = new Remittance();
+        remittance.setId(id);
+
+        log.info("AR-GR-01 get remittance {}", remittance);
+
+        remittance.visit(remittanceQueryProcess::execute);
+
+        log.info("AR-GR-02 get remittance {}", remittance);
+
+        var payload = RemittanceMapper.INSTANCE.map(remittance);
+
+        log.info("AR-GR-03 get remittance response payload {}", payload);
+
+        return ResponseEntity.ok(payload);
     }
 
 }

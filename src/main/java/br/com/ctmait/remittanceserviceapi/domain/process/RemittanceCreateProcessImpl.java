@@ -36,7 +36,7 @@ public class RemittanceCreateProcessImpl implements RemittanceCreateProcess {
     }
 
     @Override
-    public void execute(Remittance remittance) throws CheckBalanceActionException, RemittanceException {
+    public void execute(Remittance remittance){
 
         log.info("RCPI-E-00 Remittance create process for remittance {} started", remittance);
         try {
