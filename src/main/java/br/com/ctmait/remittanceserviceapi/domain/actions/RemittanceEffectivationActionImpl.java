@@ -35,7 +35,7 @@ public class RemittanceEffectivationActionImpl implements RemittanceEffectivatio
             Objects.requireNonNull(remittance.getReceiver(), "remittance receiver cannot null");
             var accountReceiver = accountRepository.getById(remittance.getReceiver().getAccountId());
             accountRepository.updateBalance(remittance.getReceiver().getAccountId(), this.getNewBalanceValue(accountReceiver, remittance.getConvertedValue()));
-            remittance.visit(remittanceRepository::insert);
+            remittanceEffectivation(remittance, accountReceiver);
             log.info("REAI-E-01 Effectivation for remittance {} finished", remittance);
         }catch (Exception exception){
             log.error("REAI-E-02 Effectivation for remittance {} error {} ", remittance, exception);
@@ -44,5 +44,17 @@ public class RemittanceEffectivationActionImpl implements RemittanceEffectivatio
     }
     private BigDecimal getNewBalanceValue(Account accountReceiver, BigDecimal convertedValue){
         return accountReceiver.getBalance().getValue().add(convertedValue).setScale(5, RoundingMode.HALF_DOWN);
+    }
+    private BigDecimal getNewBalanceValueRollback(Account accountReceiver, BigDecimal convertedValue){
+        return accountReceiver.getBalance().getValue().subtract(convertedValue).setScale(5, RoundingMode.HALF_DOWN);
+    }
+
+    private void remittanceEffectivation(Remittance remittance, Account accountReceiver){
+        try {
+            remittance.visit(remittanceRepository::insert);
+        }catch (Exception e){
+            accountRepository.updateBalance(remittance.getReceiver().getAccountId(), this.getNewBalanceValueRollback(accountReceiver, remittance.getConvertedValue()));
+            throw e;
+        }
     }
 }
