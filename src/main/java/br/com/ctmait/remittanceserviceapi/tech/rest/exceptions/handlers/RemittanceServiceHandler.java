@@ -1,5 +1,6 @@
 package br.com.ctmait.remittanceserviceapi.tech.rest.exceptions.handlers;
 
+import br.com.ctmait.remittanceserviceapi.abstraction.actions.ReceiverEnrichmentAction;
 import br.com.ctmait.remittanceserviceapi.domain.exceptions.*;
 import br.com.ctmait.remittanceserviceapi.tech.rest.exceptions.payload.ExceptionPayload;
 import br.com.ctmait.remittanceserviceapi.tech.rest.exceptions.service.ExceptionService;
@@ -138,5 +139,17 @@ public class RemittanceServiceHandler {
         return new ResponseEntity<ExceptionPayload>(
                 exceptionService.generatePayload(ex),
                 HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(ReceiverEnrichmentActionException.class)
+    public ResponseEntity<ExceptionPayload> handleException(ReceiverEnrichmentActionException ex) {
+        return new ResponseEntity<ExceptionPayload>(
+                exceptionService.generatePayload(ex),
+                HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(PayerEnrichmentActionException.class)
+    public ResponseEntity<ExceptionPayload> handleException(PayerEnrichmentActionException ex) {
+        return new ResponseEntity<ExceptionPayload>(
+                exceptionService.generatePayload(ex),
+                HttpStatus.BAD_REQUEST);
     }
 }

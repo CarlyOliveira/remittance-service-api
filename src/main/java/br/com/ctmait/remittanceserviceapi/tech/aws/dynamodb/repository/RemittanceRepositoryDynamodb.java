@@ -93,12 +93,12 @@ public class RemittanceRepositoryDynamodb implements RemittanceRepository {
         remittance.setPayer(payer);
 
         var receiver = new Receiver();
-        receiver.setUserName(remittanceEntity.getPayerName());
-        receiver.setAccountId(remittanceEntity.getPayerAccountId());
+        receiver.setUserName(remittanceEntity.getReceiverName());
+        receiver.setAccountId(remittanceEntity.getReceiverAccountId());
         var receiverDocument= new Document();
-        receiverDocument.setValue(remittanceEntity.getPayerDocument());
-        receiverDocument.setDocumentType(DocumentType.getByCode(remittanceEntity.getPayerDocumentType()));
-        receiver.setDocument(payerDocument);
+        receiverDocument.setValue(remittanceEntity.getReceiverDocument());
+        receiverDocument.setDocumentType(DocumentType.getByCode(remittanceEntity.getReceiverDocumentType()));
+        receiver.setDocument(receiverDocument);
         remittance.setReceiver(receiver);
     }
     private RemittanceEntity convert (Remittance remittance){

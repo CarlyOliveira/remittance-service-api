@@ -1,5 +1,7 @@
 package br.com.ctmait.remittanceserviceapi.tech.aws.dynamodb.repository;
 
+import br.com.ctmait.remittanceserviceapi.domain.exceptions.RemittanceNotFoundException;
+import br.com.ctmait.remittanceserviceapi.domain.exceptions.UserNotFoundException;
 import br.com.ctmait.remittanceserviceapi.domain.models.user.Document;
 import br.com.ctmait.remittanceserviceapi.domain.models.user.DocumentType;
 import br.com.ctmait.remittanceserviceapi.domain.models.user.User;
@@ -12,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.Objects;
+import java.util.Optional;
 
 
 @Repository
@@ -41,7 +44,8 @@ public class UserRepositoryDynamodb implements UserRepository {
         try {
             Objects.requireNonNull(document, "document cannot null");
             var userEntity = dynamoDBMapper.load(UserEntity.class, document);
-            return userEntity;
+            return Optional.ofNullable(userEntity)
+                    .orElseThrow(() -> new UserNotFoundException("document value " + document + " not found"));
         }catch (Exception e){
             throw e;
         }
@@ -49,7 +53,7 @@ public class UserRepositoryDynamodb implements UserRepository {
 
     private User convert (UserEntity userEntity){
         var user = new User();
-        user.setName(user.getName());
+        user.setName(userEntity.getName());
         user.setEmail(userEntity.getEmail());
         var document = new Document();
         document.setValue(userEntity.getDocument());
