@@ -21,14 +21,18 @@ public class RemittanceCreateProcessImpl implements RemittanceCreateProcess {
     private final GetExchangeRateAction getExchangeRateAction;
     private final ConvertRemittanceValueAction convertRemittanceValueAction;
     private final RemittanceEffectivationAction remittanceEffectivationAction;
+    private final LimitReserveUndoAction limitReserveUndoAction;
+    private final BalanceReserveUndoAction balanceReserveUndoAction;
 
-    public RemittanceCreateProcessImpl(RemittanceCreateValidation remittanceCreateValidation, CheckBalanceAction checkBalanceAction, CheckLimitAction checkLimitAction, GetExchangeRateAction getExchangeRateAction, ConvertRemittanceValueAction convertRemittanceValueAction, RemittanceEffectivationAction remittanceEffectivationAction) {
+    public RemittanceCreateProcessImpl(RemittanceCreateValidation remittanceCreateValidation, CheckBalanceAction checkBalanceAction, CheckLimitAction checkLimitAction, GetExchangeRateAction getExchangeRateAction, ConvertRemittanceValueAction convertRemittanceValueAction, RemittanceEffectivationAction remittanceEffectivationAction, LimitReserveUndoAction limitReserveUndoAction, BalanceReserveUndoAction balanceReserveUndoAction) {
         this.remittanceCreateValidation = remittanceCreateValidation;
         this.checkBalanceAction = checkBalanceAction;
         this.checkLimitAction = checkLimitAction;
         this.getExchangeRateAction = getExchangeRateAction;
         this.convertRemittanceValueAction = convertRemittanceValueAction;
         this.remittanceEffectivationAction = remittanceEffectivationAction;
+        this.limitReserveUndoAction = limitReserveUndoAction;
+        this.balanceReserveUndoAction = balanceReserveUndoAction;
     }
 
     @Override
@@ -52,15 +56,22 @@ public class RemittanceCreateProcessImpl implements RemittanceCreateProcess {
             throw exception;
         }catch (CheckLimitActionException exception){
             log.error("RCPI-E-04 Remittance create process for remittance {} error on check limit {} ", remittance, exception);
+            remittance.visit(balanceReserveUndoAction::execute);
             throw exception;
         }catch (GetExchangeRateActionException exception){
             log.error("RCPI-E-05 Remittance create process for remittance {} error on get exchange rate {} ", remittance, exception);
+            remittance.visit(balanceReserveUndoAction::execute);
+            remittance.visit(limitReserveUndoAction::execute);
             throw exception;
         }catch (ConvertRemittanceValueActionException exception){
             log.error("RCPI-E-06 Remittance create process for remittance {} error on convert remittance{} ", remittance, exception);
+            remittance.visit(balanceReserveUndoAction::execute);
+            remittance.visit(limitReserveUndoAction::execute);
             throw exception;
         }catch (RemittanceEffectivationActionException exception){
             log.error("RCPI-E-07 Remittance create process for remittance {} error on effetivation remittance{} ", remittance, exception);
+            remittance.visit(balanceReserveUndoAction::execute);
+            remittance.visit(limitReserveUndoAction::execute);
             throw exception;
         }catch (Exception exception){
             log.error("RCPI-E-08 Remittance create process for remittance {} error on create process{} ", remittance, exception);

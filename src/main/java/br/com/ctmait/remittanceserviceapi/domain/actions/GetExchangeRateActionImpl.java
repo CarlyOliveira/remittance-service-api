@@ -33,7 +33,7 @@ public class GetExchangeRateActionImpl implements GetExchangeRateAction {
             remittance.visit(exchangeRateClient::loadExchangeRateOnRemittance);
             log.info("GERAI-E-01 Get exchange rate for remittance {} finished", remittance);
         }catch (Exception exception){
-            log.error("GERAI-E-02 Get exchange rate remittance {} error {} ", remittance, exception);
+            log.error("GERAI-E-03 Get exchange rate remittance {} error {} ", remittance, exception);
             throw new GetExchangeRateActionException(exception);
         }
     }

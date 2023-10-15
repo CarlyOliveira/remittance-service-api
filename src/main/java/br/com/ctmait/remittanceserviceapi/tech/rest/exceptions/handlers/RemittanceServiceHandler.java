@@ -95,12 +95,6 @@ public class RemittanceServiceHandler {
     public ResponseEntity<ExceptionPayload> handleException(GetExchangeRateActionException ex) {
         return new ResponseEntity<ExceptionPayload>(
                 exceptionService.generatePayload(ex),
-                HttpStatus.UNPROCESSABLE_ENTITY);
-    }
-    @ExceptionHandler(GetExchangeRateIntegrationException.class)
-    public ResponseEntity<ExceptionPayload> handleException(GetExchangeRateIntegrationException ex) {
-        return new ResponseEntity<ExceptionPayload>(
-                exceptionService.generatePayload(ex),
                 HttpStatus.FAILED_DEPENDENCY);
     }
     @ExceptionHandler(ConvertRemittanceValueActionException.class)
