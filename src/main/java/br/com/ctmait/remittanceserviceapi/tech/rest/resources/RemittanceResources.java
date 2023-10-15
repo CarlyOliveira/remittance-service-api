@@ -5,7 +5,7 @@ import br.com.ctmait.remittanceserviceapi.abstraction.process.RemittanceQueryPro
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
 import br.com.ctmait.remittanceserviceapi.tech.rest.mapper.RemittanceMapper;
 import br.com.ctmait.remittanceserviceapi.tech.rest.payload.in.RemittancePayloadIn;
-import br.com.ctmait.remittanceserviceapi.tech.rest.payload.out.RemittancePayloadOutR;
+import br.com.ctmait.remittanceserviceapi.tech.rest.payload.out.RemittancePayloadOut;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,8 +56,8 @@ public class RemittanceResources {
     }
 
     @GetMapping("/v1/remittance/{id}")
-    public ResponseEntity<RemittancePayloadOutR> getRemittance(@PathVariable String id,
-                                                               @RequestHeader(value = "transactionId", required = true) String transactionId) {
+    public ResponseEntity<RemittancePayloadOut> getRemittance(@PathVariable String id,
+                                                              @RequestHeader(value = "transactionId", required = true) String transactionId) {
 
         log.info("RR-GR-00 get remittance id {} transactionId {}", id, transactionId);
 

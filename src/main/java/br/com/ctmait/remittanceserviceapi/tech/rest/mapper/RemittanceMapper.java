@@ -2,7 +2,7 @@ package br.com.ctmait.remittanceserviceapi.tech.rest.mapper;
 
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
 import br.com.ctmait.remittanceserviceapi.tech.rest.payload.in.RemittancePayloadIn;
-import br.com.ctmait.remittanceserviceapi.tech.rest.payload.out.RemittancePayloadOutR;
+import br.com.ctmait.remittanceserviceapi.tech.rest.payload.out.RemittancePayloadOut;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -35,6 +35,5 @@ public interface RemittanceMapper {
     @Mapping(source = "source.remittanceStatus", target = "remittanceStatus")
     @Mapping(source = "source.payer.balance.currency", target = "valueCurrency")
     @Mapping(source = "source.receiver.accountCurrency", target = "convertedValueCurrency")
-
-    RemittancePayloadOutR map (Remittance source);
+    RemittancePayloadOut map (Remittance source);
 }

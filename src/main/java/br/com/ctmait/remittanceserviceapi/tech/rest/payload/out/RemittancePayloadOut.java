@@ -1,18 +1,21 @@
 package br.com.ctmait.remittanceserviceapi.tech.rest.payload.out;
 
+public record RemittancePayloadOut(String id,
+                                   String value,
+                                   String valueCurrency,
+                                   String convertedValue,
+                                   String convertedValueCurrency,
+                                   String exchangeRate,
+                                   String exchangeRateDate,
+                                   String payerName,
+                                   String payerAccountId,
+                                   String payerDocument,
+                                   String payerDocumentType,
+                                   String receiverName,
+                                   String receiverAccountId,
+                                   String receiverDocument,
+                                   String receiverDocumentType,
+                                   String remittanceCreateDate,
+                                   String remittanceStatus) {
 
-public class RemittancePayloadOut {
-    private String id;
-    private String value;
-    private String convertedValue;
-    private String exchangeRate;
-    private String exchangeRateDate;
-    private String payerName;
-    private String payerAccountId;
-    private String payerDocument;
-    private String payerDocumentType;
-    private String receiverName;
-    private String receiverAccountId;
-    private String receiverDocument;
-    private String receiverDocumentType;
 }
