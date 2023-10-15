@@ -4,12 +4,14 @@ import br.com.ctmait.remittanceserviceapi.abstraction.actions.ConvertRemittanceV
 import br.com.ctmait.remittanceserviceapi.domain.exceptions.CheckBalanceException;
 import br.com.ctmait.remittanceserviceapi.domain.exceptions.ConvertRemittanceValueActionException;
 import br.com.ctmait.remittanceserviceapi.domain.exceptions.RemittanceException;
+import br.com.ctmait.remittanceserviceapi.domain.models.account.Currency;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
 import br.com.ctmait.remittanceserviceapi.tech.infrastructure.annotations.Action;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.Objects;
 import java.util.Optional;
@@ -52,7 +54,12 @@ public class ConvertRemittanceValueActionImpl implements ConvertRemittanceValueA
         throw new ConvertRemittanceValueActionException(valueName + " cannot null");
     }
     private void executeConvertValue(Remittance remittance){
-        var convertedValue = remittance.getValue().multiply(remittance.getExchangeRate()).setScale(5, RoundingMode.HALF_DOWN);
+        var convertedValue = BigDecimal.ZERO;
+        if(remittance.getPayer().getBalance().getCurrency().equals(Currency.REAL)){
+            convertedValue = remittance.getValue().divide(remittance.getExchangeRate(), 5, RoundingMode.HALF_DOWN);
+        }else {
+            convertedValue = remittance.getValue().multiply(remittance.getExchangeRate()).setScale(5, RoundingMode.HALF_DOWN);
+        }
         remittance.setConvertedValue(convertedValue);
     }
 }

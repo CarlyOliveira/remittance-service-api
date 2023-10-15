@@ -94,6 +94,7 @@ public class AccountRepositoryDynamodb implements AccountRepository {
         account.setBalance(balance);
         var limit = new TransactionalLimit();
         limit.setValue(new BigDecimal(accountEntity.getLimitValue()));
+        account.setTransactionalLimitDaily(limit);
         return account;
     }
 }
