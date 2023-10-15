@@ -20,6 +20,9 @@ public class RemittanceEffectivationActionImpl implements RemittanceEffectivatio
     private static final Logger log = LoggerFactory.getLogger(RemittanceEffectivationActionImpl.class);
     private final AccountRepository accountRepository;
     private final RemittanceRepository remittanceRepository;
+    private static final boolean ROLLBACK_TRUE = true;
+    private static final boolean ROLLBACK_FALSE = false;
+
 
     public RemittanceEffectivationActionImpl(AccountRepository accountRepository, RemittanceRepository remittanceRepository) {
         this.accountRepository = accountRepository;
@@ -34,8 +37,8 @@ public class RemittanceEffectivationActionImpl implements RemittanceEffectivatio
             Objects.requireNonNull(remittance, "remittance cannot null");
             Objects.requireNonNull(remittance.getReceiver(), "remittance receiver cannot null");
             var accountReceiver = accountRepository.getById(remittance.getReceiver().getAccountId());
-            accountRepository.updateBalance(remittance.getReceiver().getAccountId(), this.getNewBalanceValue(accountReceiver, remittance.getConvertedValue()));
-            remittanceEffectivation(remittance, accountReceiver);
+            uptdateBalanceReceiver(remittance, ROLLBACK_FALSE);
+            remittance.visit(this::remittanceEffectivation);
             log.info("REAI-E-01 Effectivation for remittance {} finished", remittance);
         }catch (Exception exception){
             log.error("REAI-E-02 Effectivation for remittance {} error {} ", remittance, exception);
@@ -48,12 +51,16 @@ public class RemittanceEffectivationActionImpl implements RemittanceEffectivatio
     private BigDecimal getNewBalanceValueRollback(Account accountReceiver, BigDecimal convertedValue){
         return accountReceiver.getBalance().getValue().subtract(convertedValue).setScale(5, RoundingMode.HALF_DOWN);
     }
-
-    private void remittanceEffectivation(Remittance remittance, Account accountReceiver){
+    private void uptdateBalanceReceiver(Remittance remittance, boolean isRollBack){
+        var accountReceiver = accountRepository.getById(remittance.getReceiver().getAccountId());
+        var newBalanceValue = isRollBack ? getNewBalanceValueRollback(accountReceiver, remittance.getConvertedValue()) : getNewBalanceValue(accountReceiver, remittance.getConvertedValue());
+        accountRepository.updateBalance(remittance.getReceiver().getAccountId(), newBalanceValue);
+    }
+    private void remittanceEffectivation(Remittance remittance){
         try {
             remittance.visit(remittanceRepository::insert);
         }catch (Exception e){
-            accountRepository.updateBalance(remittance.getReceiver().getAccountId(), this.getNewBalanceValueRollback(accountReceiver, remittance.getConvertedValue()));
+            uptdateBalanceReceiver(remittance, ROLLBACK_TRUE);
             throw e;
         }
     }
