@@ -78,15 +78,15 @@ public class RemittanceServiceHandler {
                 HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(CheckBalanceException.class)
-    public ResponseEntity<ExceptionPayload> handleException(CheckBalanceException ex) {
+    @ExceptionHandler(CheckBalanceActionException.class)
+    public ResponseEntity<ExceptionPayload> handleException(CheckBalanceActionException ex) {
         return new ResponseEntity<ExceptionPayload>(
                 exceptionService.generatePayload(ex),
                 HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
-    @ExceptionHandler(CheckLimitException.class)
-    public ResponseEntity<ExceptionPayload> handleException(CheckLimitException ex) {
+    @ExceptionHandler(CheckLimitActionException.class)
+    public ResponseEntity<ExceptionPayload> handleException(CheckLimitActionException ex) {
         return new ResponseEntity<ExceptionPayload>(
                 exceptionService.generatePayload(ex),
                 HttpStatus.UNPROCESSABLE_ENTITY);

@@ -1,8 +1,7 @@
 package br.com.ctmait.remittanceserviceapi.domain.actions;
 
 import br.com.ctmait.remittanceserviceapi.abstraction.actions.CheckBalanceAction;
-import br.com.ctmait.remittanceserviceapi.domain.exceptions.CheckBalanceException;
-import br.com.ctmait.remittanceserviceapi.domain.exceptions.RemittanceException;
+import br.com.ctmait.remittanceserviceapi.domain.exceptions.CheckBalanceActionException;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
 import br.com.ctmait.remittanceserviceapi.tech.infrastructure.annotations.Action;
 import br.com.ctmait.remittanceserviceapi.tech.infrastructure.repository.AccountRepository;
@@ -25,7 +24,7 @@ public class CheckBalanceActionImpl implements CheckBalanceAction {
     }
 
     @Override
-    public void execute(Remittance remittance) throws CheckBalanceException, RemittanceException {
+    public void execute(Remittance remittance){
 
         log.info("CBAI-E-00 Check balance for remittance {} started", remittance);
         try {
@@ -38,13 +37,13 @@ public class CheckBalanceActionImpl implements CheckBalanceAction {
             log.info("CBAI-E-01 Check balance for remittance {} finished", remittance);
         }catch (Exception exception){
             log.error("CBAI-E-02 Check balance for remittance {} error {} ", remittance, exception);
-            throw new CheckBalanceException(exception);
+            throw new CheckBalanceActionException(exception);
         }
     }
 
     private void checkBalance(Remittance remittance){
         if(remittance.getValue().compareTo(remittance.getPayer().getBalance().getValue()) > 0){
-            throw new CheckBalanceException("not balance");
+            throw new CheckBalanceActionException("not balance");
         }
     }
 

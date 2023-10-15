@@ -1,9 +1,7 @@
 package br.com.ctmait.remittanceserviceapi.domain.actions;
 
 import br.com.ctmait.remittanceserviceapi.abstraction.actions.GetExchangeRateAction;
-import br.com.ctmait.remittanceserviceapi.domain.exceptions.CheckBalanceException;
 import br.com.ctmait.remittanceserviceapi.domain.exceptions.GetExchangeRateActionException;
-import br.com.ctmait.remittanceserviceapi.domain.exceptions.RemittanceException;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
 import br.com.ctmait.remittanceserviceapi.tech.infrastructure.annotations.Action;
 import br.com.ctmait.remittanceserviceapi.tech.rest.client.ExchangeRateClient;
@@ -26,7 +24,7 @@ public class GetExchangeRateActionImpl implements GetExchangeRateAction {
     }
 
     @Override
-    public void execute(Remittance remittance) throws CheckBalanceException, RemittanceException {
+    public void execute(Remittance remittance){
 
         log.info("GERAI-E-00 Get exchange rate for remittance {} started", remittance);
         try {

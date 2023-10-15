@@ -32,7 +32,7 @@ public class RemittanceCreateProcessImpl implements RemittanceCreateProcess {
     }
 
     @Override
-    public void execute(Remittance remittance) throws CheckBalanceException, RemittanceException {
+    public void execute(Remittance remittance) throws CheckBalanceActionException, RemittanceException {
 
         log.info("RCPI-E-00 Remittance create process for remittance {} started", remittance);
         try {
@@ -47,10 +47,10 @@ public class RemittanceCreateProcessImpl implements RemittanceCreateProcess {
         }catch (RemittanceCreateValidationException exception){
             log.error("RCPI-E-02 Remittance create process for remittance {} error on validation {} ", remittance, exception);
             throw exception;
-        }catch (CheckBalanceException exception){
+        }catch (CheckBalanceActionException exception){
             log.error("RCPI-E-03 Remittance create process for remittance {} error on check balance {} ", remittance, exception);
             throw exception;
-        }catch (CheckLimitException exception){
+        }catch (CheckLimitActionException exception){
             log.error("RCPI-E-04 Remittance create process for remittance {} error on check limit {} ", remittance, exception);
             throw exception;
         }catch (GetExchangeRateActionException exception){

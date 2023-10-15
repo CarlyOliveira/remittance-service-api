@@ -1,9 +1,7 @@
 package br.com.ctmait.remittanceserviceapi.domain.actions;
 
 import br.com.ctmait.remittanceserviceapi.abstraction.actions.ConvertRemittanceValueAction;
-import br.com.ctmait.remittanceserviceapi.domain.exceptions.CheckBalanceException;
 import br.com.ctmait.remittanceserviceapi.domain.exceptions.ConvertRemittanceValueActionException;
-import br.com.ctmait.remittanceserviceapi.domain.exceptions.RemittanceException;
 import br.com.ctmait.remittanceserviceapi.domain.models.account.Currency;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
 import br.com.ctmait.remittanceserviceapi.tech.infrastructure.annotations.Action;
@@ -11,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.Objects;
 import java.util.Optional;
@@ -24,7 +21,7 @@ public class ConvertRemittanceValueActionImpl implements ConvertRemittanceValueA
     private static final String REMITTANCE_VALUE_NAME = "remittanceValue";
 
     @Override
-    public void execute(Remittance remittance) throws CheckBalanceException, RemittanceException {
+    public void execute(Remittance remittance){
 
         log.info("CRVAI-E-00 Convert value for remittance {} started", remittance);
         try {

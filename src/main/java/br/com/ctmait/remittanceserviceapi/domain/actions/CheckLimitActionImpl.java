@@ -1,9 +1,7 @@
 package br.com.ctmait.remittanceserviceapi.domain.actions;
 
 import br.com.ctmait.remittanceserviceapi.abstraction.actions.CheckLimitAction;
-import br.com.ctmait.remittanceserviceapi.domain.exceptions.CheckBalanceException;
-import br.com.ctmait.remittanceserviceapi.domain.exceptions.CheckLimitException;
-import br.com.ctmait.remittanceserviceapi.domain.exceptions.RemittanceException;
+import br.com.ctmait.remittanceserviceapi.domain.exceptions.CheckLimitActionException;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
 import br.com.ctmait.remittanceserviceapi.tech.infrastructure.annotations.Action;
 import br.com.ctmait.remittanceserviceapi.tech.infrastructure.repository.AccountRepository;
@@ -26,7 +24,7 @@ public class CheckLimitActionImpl implements CheckLimitAction {
     }
 
     @Override
-    public void execute(Remittance remittance) throws CheckBalanceException, RemittanceException {
+    public void execute(Remittance remittance){
 
         log.info("CLAI-E-00 Check limit for remittance {} started", remittance);
         try {
@@ -39,13 +37,13 @@ public class CheckLimitActionImpl implements CheckLimitAction {
             log.info("CLAI-E-01 Check limit for remittance {} finished", remittance);
         }catch (Exception exception){
             log.error("CLAI-E-02 Check limit for remittance {} error {} ", remittance, exception);
-            throw new CheckLimitException(exception);
+            throw new CheckLimitActionException(exception);
         }
     }
 
     private void checkLimit(Remittance remittance){
         if(remittance.getValue().compareTo(remittance.getPayer().getLimit().getValue()) > 0){
-            throw new CheckLimitException("not limit");
+            throw new CheckLimitActionException("not limit");
         }
     }
 

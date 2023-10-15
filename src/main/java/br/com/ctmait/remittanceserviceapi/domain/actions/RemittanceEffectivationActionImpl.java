@@ -1,9 +1,7 @@
 package br.com.ctmait.remittanceserviceapi.domain.actions;
 
 import br.com.ctmait.remittanceserviceapi.abstraction.actions.RemittanceEffectivationAction;
-import br.com.ctmait.remittanceserviceapi.domain.exceptions.CheckBalanceException;
 import br.com.ctmait.remittanceserviceapi.domain.exceptions.RemittanceEffectivationActionException;
-import br.com.ctmait.remittanceserviceapi.domain.exceptions.RemittanceException;
 import br.com.ctmait.remittanceserviceapi.domain.models.account.Account;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
 import br.com.ctmait.remittanceserviceapi.tech.infrastructure.annotations.Action;
@@ -27,7 +25,7 @@ public class RemittanceEffectivationActionImpl implements RemittanceEffectivatio
 
 
     @Override
-    public void execute(Remittance remittance) throws CheckBalanceException, RemittanceException {
+    public void execute(Remittance remittance){
 
         log.info("REAI-E-00 Effectivation for remittance {} started", remittance);
         try {
