@@ -1,10 +1,25 @@
 package br.com.ctmait.remittanceserviceapi.domain.models.account;
 
+import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
+
+import java.math.RoundingMode;
 import java.util.Arrays;
 
 public enum Currency {
-    REAL("REAL"),
-    DOLAR("DOLAR");
+    REAL("REAL"){
+        @Override
+        public void convertRemittanceValue(Remittance remittance) {
+            var convertedValue = remittance.getValue().divide(remittance.getExchangeRate(), 5, RoundingMode.HALF_DOWN);
+            remittance.setConvertedValue(convertedValue);
+        }
+    },
+    DOLAR("DOLAR"){
+        @Override
+        public void convertRemittanceValue(Remittance remittance) {
+            var convertedValue = remittance.getValue().multiply(remittance.getExchangeRate()).setScale(5, RoundingMode.HALF_DOWN);
+            remittance.setConvertedValue(convertedValue);
+        }
+    };
 
     private String code;
 
@@ -22,6 +37,8 @@ public enum Currency {
     public String getCode() {
         return code;
     }
+
+    public abstract void convertRemittanceValue(Remittance remittance);
 
     @Override
     public String toString() {

@@ -87,7 +87,7 @@ public class AccountRepositoryDynamodb implements AccountRepository {
     private Account convert (AccountEntity accountEntity){
         var account = new Account();
         account.setId(accountEntity.getId());
-        account.setOwnerId(account.getOwnerId());
+        account.setOwnerId(accountEntity.getOwnerId());
         var balance = new Balance();
         balance.setValue(new BigDecimal(accountEntity.getBalanceValue()));
         balance.setCurrency(Currency.getByCode(accountEntity.getBalanceCurrency()));

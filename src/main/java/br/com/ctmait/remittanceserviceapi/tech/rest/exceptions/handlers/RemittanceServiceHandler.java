@@ -132,7 +132,7 @@ public class RemittanceServiceHandler {
     public ResponseEntity<ExceptionPayload> handleException(RemittanceEffectivationActionException ex) {
         return new ResponseEntity<ExceptionPayload>(
                 exceptionService.generatePayload(ex),
-                HttpStatus.BAD_REQUEST);
+                HttpStatus.UNPROCESSABLE_ENTITY);
     }
     @ExceptionHandler(RemittanceNotFoundException.class)
     public ResponseEntity<ExceptionPayload> handleException(RemittanceNotFoundException ex) {
@@ -144,12 +144,12 @@ public class RemittanceServiceHandler {
     public ResponseEntity<ExceptionPayload> handleException(ReceiverEnrichmentActionException ex) {
         return new ResponseEntity<ExceptionPayload>(
                 exceptionService.generatePayload(ex),
-                HttpStatus.BAD_REQUEST);
+                HttpStatus.UNPROCESSABLE_ENTITY);
     }
     @ExceptionHandler(PayerEnrichmentActionException.class)
     public ResponseEntity<ExceptionPayload> handleException(PayerEnrichmentActionException ex) {
         return new ResponseEntity<ExceptionPayload>(
                 exceptionService.generatePayload(ex),
-                HttpStatus.BAD_REQUEST);
+                HttpStatus.UNPROCESSABLE_ENTITY);
     }
 }

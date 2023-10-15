@@ -30,8 +30,6 @@ public class CheckBalanceActionImpl implements CheckBalanceAction {
         try {
             Objects.requireNonNull(remittance, "remittance cannot null");
             Objects.requireNonNull(remittance.getPayer(), "remittance payer cannot null");
-            var accountPayer = accountRepository.getById(remittance.getPayer().getAccountId());
-            remittance.getPayer().setBalance(accountPayer.getBalance());
             remittance.visit(this::checkBalance);
             remittance.visit(this::balanceReserve);
             log.info("CBAI-E-01 Check balance for remittance {} finished", remittance);

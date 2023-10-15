@@ -2,7 +2,6 @@ package br.com.ctmait.remittanceserviceapi.domain.actions;
 
 import br.com.ctmait.remittanceserviceapi.abstraction.actions.ConvertRemittanceValueAction;
 import br.com.ctmait.remittanceserviceapi.domain.exceptions.ConvertRemittanceValueActionException;
-import br.com.ctmait.remittanceserviceapi.domain.models.account.Currency;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
 import br.com.ctmait.remittanceserviceapi.tech.infrastructure.annotations.Action;
 import org.slf4j.Logger;
@@ -26,6 +25,11 @@ public class ConvertRemittanceValueActionImpl implements ConvertRemittanceValueA
         log.info("CRVAI-E-00 Convert value for remittance {} started", remittance);
         try {
             Objects.requireNonNull(remittance, "remittance cannot null");
+            Objects.requireNonNull(remittance.getPayer(), "remittance payer cannot null");
+            Objects.requireNonNull(remittance.getPayer().getBalance(), "remittance payer balance cannot null");
+            Objects.requireNonNull(remittance.getPayer().getBalance().getCurrency(), "remittance payer balance currency cannot null");
+            Objects.requireNonNull(remittance.getReceiver(), "remittance receiver cannot null");
+            Objects.requireNonNull(remittance.getReceiver().getAccountCurrency(), "remittance receiver accountCurrency cannot null");
             remittance.visit(this::checkRemittanceValue);
             remittance.visit(this::checkExchangeRate);
             remittance.visit(this::executeConvertValue);
@@ -51,12 +55,10 @@ public class ConvertRemittanceValueActionImpl implements ConvertRemittanceValueA
         throw new ConvertRemittanceValueActionException(valueName + " cannot null");
     }
     private void executeConvertValue(Remittance remittance){
-        var convertedValue = BigDecimal.ZERO;
-        if(remittance.getPayer().getBalance().getCurrency().equals(Currency.REAL)){
-            convertedValue = remittance.getValue().divide(remittance.getExchangeRate(), 5, RoundingMode.HALF_DOWN);
-        }else {
-            convertedValue = remittance.getValue().multiply(remittance.getExchangeRate()).setScale(5, RoundingMode.HALF_DOWN);
+        if(remittance.getPayer().getBalance().getCurrency().equals(remittance.getReceiver().getAccountCurrency())){
+            throw new ConvertRemittanceValueActionException( "Accounts currency cannot be equals");
         }
-        remittance.setConvertedValue(convertedValue);
+        remittance.visit(remittance.getPayer().getBalance().getCurrency()::convertRemittanceValue);
     }
+
 }

@@ -30,8 +30,6 @@ public class CheckLimitActionImpl implements CheckLimitAction {
         try {
             Objects.requireNonNull(remittance, "remittance cannot null");
             Objects.requireNonNull(remittance.getPayer(), "remittance payer cannot null");
-            var accountPayer = accountRepository.getById(remittance.getPayer().getAccountId());
-            remittance.getPayer().setLimit(accountPayer.getTransactionalLimitDaily());
             remittance.visit(this::checkLimit);
             remittance.visit(this::limitReserve);
             log.info("CLAI-E-01 Check limit for remittance {} finished", remittance);
