@@ -1,9 +1,6 @@
 package br.com.ctmait.remittanceserviceapi.domain.process;
 
-import br.com.ctmait.remittanceserviceapi.abstraction.actions.CheckBalanceAction;
-import br.com.ctmait.remittanceserviceapi.abstraction.actions.CheckLimitAction;
-import br.com.ctmait.remittanceserviceapi.abstraction.actions.ConvertRemittanceValueAction;
-import br.com.ctmait.remittanceserviceapi.abstraction.actions.GetExchangeRateAction;
+import br.com.ctmait.remittanceserviceapi.abstraction.actions.*;
 import br.com.ctmait.remittanceserviceapi.abstraction.process.RemittanceCreateProcess;
 import br.com.ctmait.remittanceserviceapi.abstraction.validations.RemittanceCreateValidation;
 import br.com.ctmait.remittanceserviceapi.domain.exceptions.*;
@@ -23,13 +20,15 @@ public class RemittanceCreateProcessImpl implements RemittanceCreateProcess {
     private final CheckLimitAction checkLimitAction;
     private final GetExchangeRateAction getExchangeRateAction;
     private final ConvertRemittanceValueAction convertRemittanceValueAction;
+    private final RemittanceEffectivationAction remittanceEffectivationAction;
 
-    public RemittanceCreateProcessImpl(RemittanceCreateValidation remittanceCreateValidation, CheckBalanceAction checkBalanceAction, CheckLimitAction checkLimitAction, GetExchangeRateAction getExchangeRateAction, ConvertRemittanceValueAction convertRemittanceValueAction) {
+    public RemittanceCreateProcessImpl(RemittanceCreateValidation remittanceCreateValidation, CheckBalanceAction checkBalanceAction, CheckLimitAction checkLimitAction, GetExchangeRateAction getExchangeRateAction, ConvertRemittanceValueAction convertRemittanceValueAction, RemittanceEffectivationAction remittanceEffectivationAction) {
         this.remittanceCreateValidation = remittanceCreateValidation;
         this.checkBalanceAction = checkBalanceAction;
         this.checkLimitAction = checkLimitAction;
         this.getExchangeRateAction = getExchangeRateAction;
         this.convertRemittanceValueAction = convertRemittanceValueAction;
+        this.remittanceEffectivationAction = remittanceEffectivationAction;
     }
 
     @Override
@@ -43,6 +42,7 @@ public class RemittanceCreateProcessImpl implements RemittanceCreateProcess {
             remittance.visit(checkLimitAction::execute);
             remittance.visit(getExchangeRateAction::execute);
             remittance.visit(convertRemittanceValueAction::execute);
+            remittance.visit(remittanceEffectivationAction::execute);
             log.info("RCPI-E-01 Remittance create process for remittance {} finished", remittance);
         }catch (RemittanceCreateValidationException exception){
             log.error("RCPI-E-02 Remittance create process for remittance {} error on validation {} ", remittance, exception);
@@ -59,8 +59,11 @@ public class RemittanceCreateProcessImpl implements RemittanceCreateProcess {
         }catch (ConvertRemittanceValueActionException exception){
             log.error("RCPI-E-06 Remittance create process for remittance {} error on convert remittance{} ", remittance, exception);
             throw exception;
+        }catch (RemittanceEffectivationActionException exception){
+            log.error("RCPI-E-07 Remittance create process for remittance {} error on effetivation remittance{} ", remittance, exception);
+            throw exception;
         }catch (Exception exception){
-            log.error("RCPI-E-07 Remittance create process for remittance {} error on create process{} ", remittance, exception);
+            log.error("RCPI-E-08 Remittance create process for remittance {} error on create process{} ", remittance, exception);
             throw new RemittanceCreateProcessException(exception);
         }
     }
