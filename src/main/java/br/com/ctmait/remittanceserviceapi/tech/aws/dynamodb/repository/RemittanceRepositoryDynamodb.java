@@ -1,5 +1,6 @@
 package br.com.ctmait.remittanceserviceapi.tech.aws.dynamodb.repository;
 
+import br.com.ctmait.remittanceserviceapi.domain.exceptions.RemittanceAlreadyExistsException;
 import br.com.ctmait.remittanceserviceapi.domain.exceptions.RemittanceNotFoundException;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Payer;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Receiver;
@@ -56,7 +57,7 @@ public class RemittanceRepositoryDynamodb implements RemittanceRepository {
             log.info("RRD-I-01 created remittance {} ", remittanceEntity);
         }catch (ConditionalCheckFailedException exception){
             log.error("RRD-I-02 error {} already exists remittance {} ", exception, remittance);
-            throw exception;
+            throw new RemittanceAlreadyExistsException("Remittance already exists " + remittance.getId());
         }catch (Exception exception){
             log.error("RRD-I-03 error {} creating remittance {} ", exception, remittance);
             throw exception;
