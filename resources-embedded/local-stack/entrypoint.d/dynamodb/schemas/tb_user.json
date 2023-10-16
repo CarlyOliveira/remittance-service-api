@@ -4,6 +4,10 @@
         {
             "AttributeName": "document",
             "AttributeType": "S"
+        },
+        {
+            "AttributeName": "email",
+            "AttributeType": "S"
         }
     ],
     "KeySchema": [
@@ -15,5 +19,23 @@
     "ProvisionedThroughput": {
         "ReadCapacityUnits": 5,
         "WriteCapacityUnits": 5
-    }
+    },
+    "GlobalSecondaryIndexes": [
+        {
+            "IndexName": "email",
+            "KeySchema": [
+                {
+                    "AttributeName": "email",
+                    "KeyType": "HASH"
+                }
+            ],
+            "Projection": {
+                "ProjectionType": "KEYS_ONLY"
+            },
+            "ProvisionedThroughput": {
+                "ReadCapacityUnits": 5,
+                "WriteCapacityUnits": 5
+            }
+        }
+    ]
 }
