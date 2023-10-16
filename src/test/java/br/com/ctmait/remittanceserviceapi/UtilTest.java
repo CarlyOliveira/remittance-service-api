@@ -102,6 +102,9 @@ public class UtilTest {
         payer.setDocument(generateUserPF().getDocument());
         payer.setUserName(generateUserPF().getName());
         payer.setBalance(generateAccountPfReal().getBalance());
+        TransactionalLimit transactionalLimit = new TransactionalLimit();
+        transactionalLimit.setValue(BigDecimal.valueOf(10000.00));
+        payer.setLimit(transactionalLimit);
         return payer;
     }
     public static Receiver generateReceiverPfAccountReal(){

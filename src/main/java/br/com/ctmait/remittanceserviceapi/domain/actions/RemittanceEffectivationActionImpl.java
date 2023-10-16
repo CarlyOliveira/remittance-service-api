@@ -36,7 +36,6 @@ public class RemittanceEffectivationActionImpl implements RemittanceEffectivatio
         try {
             Objects.requireNonNull(remittance, "remittance cannot null");
             Objects.requireNonNull(remittance.getReceiver(), "remittance receiver cannot null");
-            var accountReceiver = accountRepository.getById(remittance.getReceiver().getAccountId());
             uptdateBalanceReceiver(remittance, ROLLBACK_FALSE);
             remittance.visit(this::remittanceEffectivation);
             log.info("REAI-E-01 Effectivation for remittance {} finished", remittance);
