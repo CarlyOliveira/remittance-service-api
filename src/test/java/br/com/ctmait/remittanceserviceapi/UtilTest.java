@@ -13,6 +13,7 @@ import br.com.ctmait.remittanceserviceapi.domain.models.user.DocumentType;
 import br.com.ctmait.remittanceserviceapi.domain.models.user.User;
 import br.com.ctmait.remittanceserviceapi.tech.aws.dynamodb.entity.AccountEntity;
 import br.com.ctmait.remittanceserviceapi.tech.aws.dynamodb.entity.RemittanceEntity;
+import br.com.ctmait.remittanceserviceapi.tech.aws.dynamodb.entity.UserEntity;
 import br.com.ctmait.remittanceserviceapi.tech.rest.payload.in.PersonPayloadIn;
 import br.com.ctmait.remittanceserviceapi.tech.rest.payload.in.RemittancePayloadIn;
 
@@ -183,6 +184,15 @@ public class UtilTest {
         document.setDocumentType(DocumentType.CPF);
         user.setDocument(document);
         return user;
+    }
+
+    public static UserEntity generateUserEntityPF(){
+        var userEntity = new UserEntity();
+        userEntity.setName("User Test Pessoa Física");
+        userEntity.setEmail("user.test.pf@test.com.br");
+        userEntity.setDocument("65394627002");
+        userEntity.setDocumentType(DocumentType.CPF.getCode());
+        return userEntity;
     }
 
     public static User generateUserPJ(){

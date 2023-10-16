@@ -78,4 +78,9 @@ public class RemittanceResourcesTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    void getRemittanceOnHttpStatusCode200() throws Exception {
+        mockMvc.perform(get("/api/v1/remittance/status")).andExpect(status().isOk());
+    }
+
 }
