@@ -13,6 +13,8 @@ import br.com.ctmait.remittanceserviceapi.domain.models.user.DocumentType;
 import br.com.ctmait.remittanceserviceapi.domain.models.user.User;
 import br.com.ctmait.remittanceserviceapi.tech.aws.dynamodb.entity.AccountEntity;
 import br.com.ctmait.remittanceserviceapi.tech.aws.dynamodb.entity.RemittanceEntity;
+import br.com.ctmait.remittanceserviceapi.tech.rest.payload.in.PersonPayloadIn;
+import br.com.ctmait.remittanceserviceapi.tech.rest.payload.in.RemittancePayloadIn;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -32,6 +34,9 @@ public class UtilTest {
         remittance.setValue(REMITTANCE_VALUE);
         remittance.setPayer(generatePayerPfAccountReal());
         remittance.setReceiver(generateReceiverPjAccountDolar());
+        remittance.setRemittanceCreateDate(ZonedDateTime.now());
+        remittance.setRemittanceStatus(RemittanceStatus.EFETIVADO);
+        remittance.setConvertedValue(REMITTANCE_VALUE);
         return remittance;
     }
     public static Remittance generateRemittancePjDolarToPfReal(){
@@ -40,6 +45,9 @@ public class UtilTest {
         remittance.setValue(REMITTANCE_VALUE);
         remittance.setPayer(generatePayerPjAccountDolar());
         remittance.setReceiver(generateReceiverPfAccountReal());
+        remittance.setRemittanceCreateDate(ZonedDateTime.now());
+        remittance.setRemittanceStatus(RemittanceStatus.EFETIVADO);
+        remittance.setConvertedValue(REMITTANCE_VALUE);
         return remittance;
     }
     public static Remittance generateRemittancePjDolarToPjReal(){
@@ -48,6 +56,9 @@ public class UtilTest {
         remittance.setValue(REMITTANCE_VALUE);
         remittance.setPayer(generatePayerPjAccountDolar());
         remittance.setReceiver(generateReceiverPjAccountReal());
+        remittance.setRemittanceCreateDate(ZonedDateTime.now());
+        remittance.setRemittanceStatus(RemittanceStatus.EFETIVADO);
+        remittance.setConvertedValue(REMITTANCE_VALUE);
         return remittance;
     }
 
@@ -222,5 +233,35 @@ public class UtilTest {
         remittanceEntity.setRemittanceStatus(RemittanceStatus.EFETIVADO.getCode());
         return remittanceEntity;
 
+    }
+
+    public static PersonPayloadIn generatePayerPayloadIn(){
+        var payer = new PersonPayloadIn();
+        payer.setAccountId("8f4e644c-c460-4dd5-a200-f1b2550d7700");
+        var payerDocument = new Document();
+        payerDocument.setValue("00011122233");
+        payerDocument.setDocumentType(DocumentType.CPF);
+        payer.setDocument(payerDocument);
+        return payer;
+    }
+
+    public static PersonPayloadIn generateReceiverPayloadIn(){
+        var receiver = new PersonPayloadIn();
+        receiver.setAccountId("8f4e644c-c460-4dd5-a200-f1b2550d7711");
+        var receiverDocument = new Document();
+        receiverDocument.setValue("00011122233");
+        receiverDocument.setDocumentType(DocumentType.CPF);
+        receiver.setDocument(receiverDocument);
+        return receiver;
+    }
+
+    public static RemittancePayloadIn generateRemittancePayloadIn(){
+        var remittancePayloadIn = new RemittancePayloadIn();
+        var payer = UtilTest.generatePayerPayloadIn();
+        var receiver = UtilTest.generateReceiverPayloadIn();
+        remittancePayloadIn.setValue(new BigDecimal(100.00));
+        remittancePayloadIn.setPayer(payer);
+        remittancePayloadIn.setReceiver(receiver);
+        return remittancePayloadIn;
     }
 }

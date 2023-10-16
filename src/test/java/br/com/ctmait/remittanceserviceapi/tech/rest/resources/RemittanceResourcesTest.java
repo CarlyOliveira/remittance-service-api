@@ -1,5 +1,6 @@
 package br.com.ctmait.remittanceserviceapi.tech.rest.resources;
 
+import br.com.ctmait.remittanceserviceapi.UtilTest;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
 import br.com.ctmait.remittanceserviceapi.domain.process.RemittanceCreateProcessImpl;
 import br.com.ctmait.remittanceserviceapi.domain.process.RemittanceQueryProcessImpl;
@@ -38,7 +39,7 @@ public class RemittanceResourcesTest {
     @Test
     void createRemittanceHttpStatusCode201() throws Exception {
 
-        var remittancePayloadIn = new RemittancePayloadIn();
+        var remittancePayloadIn = UtilTest.generatePayerPayloadIn();
         doNothing().when(remittanceCreateProcess).execute(any(Remittance.class));
 
         mockMvc.perform(post("/api/v1/remittance")
