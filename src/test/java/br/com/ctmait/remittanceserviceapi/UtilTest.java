@@ -18,6 +18,7 @@ import br.com.ctmait.remittanceserviceapi.tech.rest.payload.in.PersonPayloadIn;
 import br.com.ctmait.remittanceserviceapi.tech.rest.payload.in.RemittancePayloadIn;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
@@ -26,6 +27,8 @@ public class UtilTest {
     private static final BigDecimal LIMIT_PF_VALUE = BigDecimal.valueOf(10000.00);
     private static final BigDecimal LIMIT_PJ_VALUE = BigDecimal.valueOf(50000.00);
     private static final BigDecimal REMITTANCE_VALUE = BigDecimal.valueOf(100.00);
+    private static final BigDecimal EXCHANGE_RATE = BigDecimal.valueOf(5.06190);
+
 
 
 
@@ -38,6 +41,8 @@ public class UtilTest {
         remittance.setRemittanceCreateDate(ZonedDateTime.now());
         remittance.setRemittanceStatus(RemittanceStatus.EFETIVADO);
         remittance.setConvertedValue(REMITTANCE_VALUE);
+        remittance.setExchangeRate(EXCHANGE_RATE);
+        remittance.setExchangeRateDate(LocalDate.now());
         return remittance;
     }
     public static Remittance generateRemittancePjDolarToPfReal(){
@@ -49,6 +54,8 @@ public class UtilTest {
         remittance.setRemittanceCreateDate(ZonedDateTime.now());
         remittance.setRemittanceStatus(RemittanceStatus.EFETIVADO);
         remittance.setConvertedValue(REMITTANCE_VALUE);
+        remittance.setExchangeRate(EXCHANGE_RATE);
+        remittance.setExchangeRateDate(LocalDate.now());
         return remittance;
     }
     public static Remittance generateRemittancePjDolarToPjReal(){
@@ -60,6 +67,8 @@ public class UtilTest {
         remittance.setRemittanceCreateDate(ZonedDateTime.now());
         remittance.setRemittanceStatus(RemittanceStatus.EFETIVADO);
         remittance.setConvertedValue(REMITTANCE_VALUE);
+        remittance.setExchangeRate(EXCHANGE_RATE);
+        remittance.setExchangeRateDate(LocalDate.now());
         return remittance;
     }
 
@@ -241,6 +250,9 @@ public class UtilTest {
 
         remittanceEntity.setRemittanceCreateDate(ZonedDateTime.now().toString());
         remittanceEntity.setRemittanceStatus(RemittanceStatus.EFETIVADO.getCode());
+
+        remittanceEntity.setConvertedValue(remittance.getConvertedValue().toPlainString());
+        remittanceEntity.setConvertedValueCurrency(remittance.getReceiver().getAccountCurrency().getCode());
         return remittanceEntity;
 
     }

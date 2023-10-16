@@ -46,9 +46,9 @@ public class RemittanceMapperTest {
         assertEquals(remittancePayloadOut.valueCurrency(), remittance.getPayer().getBalance().getCurrency().getCode());
         assertEquals(remittancePayloadOut.convertedValue(), remittance.getConvertedValue().toPlainString());
         assertEquals(remittancePayloadOut.convertedValueCurrency(), remittance.getReceiver().getAccountCurrency().getCode());
-        assertEquals(remittancePayloadOut.exchangeRate(), remittance.getExchangeRate());
-        assertEquals(remittancePayloadOut.exchangeRateDate(), remittance.getExchangeRateDate());
-        assertEquals(remittancePayloadOut.exchangeRateDate(), remittance.getExchangeRateDate());
+        assertEquals(remittancePayloadOut.exchangeRate(), remittance.getExchangeRate().toPlainString());
+        assertEquals(remittancePayloadOut.exchangeRateDate(), remittance.getExchangeRateDate().toString());
+        assertEquals(remittancePayloadOut.exchangeRateDate(), remittance.getExchangeRateDate().toString());
 
         assertEquals(remittancePayloadOut.payerName(), remittance.getPayer().getUserName());
         assertEquals(remittancePayloadOut.payerAccountId(), remittance.getPayer().getAccountId());
