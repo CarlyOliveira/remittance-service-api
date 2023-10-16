@@ -1,8 +1,8 @@
 package br.com.ctmait.remittanceserviceapi.domain.actions;
 
 import br.com.ctmait.remittanceserviceapi.abstraction.actions.ReceiverEnrichmentAction;
-import br.com.ctmait.remittanceserviceapi.domain.exceptions.PayerIsNotOwnerAccountException;
 import br.com.ctmait.remittanceserviceapi.domain.exceptions.ReceiverEnrichmentActionException;
+import br.com.ctmait.remittanceserviceapi.domain.exceptions.ReceiverIsNotOwnerAccountException;
 import br.com.ctmait.remittanceserviceapi.domain.models.account.Account;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
 import br.com.ctmait.remittanceserviceapi.tech.infrastructure.annotations.Action;
@@ -34,6 +34,7 @@ public class ReceiverEnrichmentActionImpl implements ReceiverEnrichmentAction {
         try {
             Objects.requireNonNull(remittance, "remittance cannot null");
             Objects.requireNonNull(remittance.getReceiver(), "remittance receiver cannot null");
+            Objects.requireNonNull(remittance.getReceiver().getAccountId(), "remittance receiver accountId cannot null");
             Objects.requireNonNull(remittance.getReceiver().getDocument(), "remittance receiver document cannot null");
             Objects.requireNonNull(remittance.getReceiver().getDocument().getValue(), "remittance receiver document value cannot null");
             remittance.visit(this::enrichmentUserNameReceiver);
@@ -59,7 +60,7 @@ public class ReceiverEnrichmentActionImpl implements ReceiverEnrichmentAction {
     }
     private void validateReceiverIsOwnerAccount(Account accountReceiver, Remittance remittance){
         if(!accountReceiver.getOwnerId().equalsIgnoreCase(remittance.getReceiver().getDocument().getValue())) {
-            throw new PayerIsNotOwnerAccountException("Receiver " + remittance.getReceiver().getDocument().getValue() + " not is owner of account " + accountReceiver.getId());
+            throw new ReceiverIsNotOwnerAccountException("Receiver " + remittance.getReceiver().getDocument().getValue() + " not is owner of account " + accountReceiver.getId());
         }
     }
 }
