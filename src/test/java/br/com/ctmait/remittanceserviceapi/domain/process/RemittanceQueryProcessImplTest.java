@@ -13,8 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class RemittanceQueryProcessImplTest {
@@ -32,6 +31,7 @@ public class RemittanceQueryProcessImplTest {
         remittance.setId(TRANSACTION_ID);
         doNothing().when(remittanceQueryAction).execute(remittance);
         assertDoesNotThrow(() -> remittance.visit(remittanceQueryProcess::execute));
+        verify(remittanceQueryAction, times(1)).execute(remittance);
     }
     @Test
     void remittanceNotFoundException() {
@@ -39,6 +39,7 @@ public class RemittanceQueryProcessImplTest {
         remittance.setId(TRANSACTION_ID);
         doThrow(RemittanceNotFoundException.class).when(remittanceQueryAction).execute(remittance);
         assertThrows(RemittanceNotFoundException.class, () -> remittance.visit(remittanceQueryProcess::execute));
+        verify(remittanceQueryAction, times(1)).execute(remittance);
     }
     @Test
     void remittanceQueryActionException() {
@@ -46,16 +47,19 @@ public class RemittanceQueryProcessImplTest {
         remittance.setId(TRANSACTION_ID);
         doThrow(RemittanceQueryActionException.class).when(remittanceQueryAction).execute(remittance);
         assertThrows(RemittanceQueryActionException.class, () -> remittance.visit(remittanceQueryProcess::execute));
+        verify(remittanceQueryAction, times(1)).execute(remittance);
     }
     @Test
     void remittanceQueryProcessExceptionByRemittanceNull() {
         Remittance remittance = null;
         assertThrows(RemittanceQueryProcessException.class, () -> remittanceQueryProcess.execute(remittance));
+        verify(remittanceQueryAction, never()).execute(remittance);
     }
     @Test
     void remittanceQueryProcessExceptionByRemittanceIdNull() {
         var remittance = new Remittance();
         remittance.setId(null);
         assertThrows(RemittanceQueryProcessException.class, () -> remittance.visit(remittanceQueryProcess::execute));
+        verify(remittanceQueryAction, never()).execute(remittance);
     }
 }
