@@ -7,11 +7,15 @@ import br.com.ctmait.remittanceserviceapi.domain.models.account.TransactionalLim
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Payer;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Receiver;
 import br.com.ctmait.remittanceserviceapi.domain.models.remittance.Remittance;
+import br.com.ctmait.remittanceserviceapi.domain.models.remittance.RemittanceStatus;
 import br.com.ctmait.remittanceserviceapi.domain.models.user.Document;
 import br.com.ctmait.remittanceserviceapi.domain.models.user.DocumentType;
 import br.com.ctmait.remittanceserviceapi.domain.models.user.User;
+import br.com.ctmait.remittanceserviceapi.tech.aws.dynamodb.entity.AccountEntity;
+import br.com.ctmait.remittanceserviceapi.tech.aws.dynamodb.entity.RemittanceEntity;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 public class UtilTest {
@@ -179,5 +183,44 @@ public class UtilTest {
         document.setDocumentType(DocumentType.CNPJ);
         user.setDocument(document);
         return user;
+    }
+
+    public static AccountEntity generateAccountEntityFromGenerateAccountPfReal(){
+        var account = UtilTest.generateAccountPfReal();
+        var accountEntity = new AccountEntity();
+        accountEntity.setId(account.getId());
+        accountEntity.setOwnerId(account.getOwnerId());
+        accountEntity.setLimitValue(account.getTransactionalLimitDaily().getValue().toPlainString());
+        accountEntity.setLimitCurrency(account.getTransactionalLimitDaily().getCurrency().getCode());
+        accountEntity.setBalanceValue(account.getBalance().getValue().toPlainString());
+        accountEntity.setBalanceCurrency(account.getBalance().getCurrency().getCode());
+        return accountEntity;
+    }
+
+    public static RemittanceEntity generateRemittanceEntityFromRemittancePfRealToPjDolar(){
+        var remittance = generateRemittancePfRealToPjDolar();
+        var remittanceEntity = new RemittanceEntity();
+        remittanceEntity.setId(remittance.getId());
+        remittanceEntity.setValue(remittance.getValue().toPlainString());
+        remittanceEntity.setValueCurrency(remittance.getPayer().getBalance().getCurrency().getCode());
+        remittanceEntity.setConvertedValueCurrency(remittance.getConvertedValue().toPlainString());
+        remittanceEntity.setConvertedValueCurrency(remittance.getReceiver().getAccountCurrency().getCode());
+        remittanceEntity.setExchangeRate(remittance.getExchangeRate().toPlainString());
+        remittanceEntity.setExchangeRateDate(remittance.getExchangeRateDate().toString());
+
+        remittanceEntity.setPayerName(remittance.getPayer().getUserName());
+        remittanceEntity.setPayerAccountId(remittance.getPayer().getAccountId());
+        remittanceEntity.setPayerDocument(remittance.getPayer().getDocument().getValue());
+        remittanceEntity.setPayerDocumentType(remittance.getPayer().getDocument().getDocumentType().getCode());
+
+        remittanceEntity.setReceiverName(remittance.getReceiver().getUserName());
+        remittanceEntity.setReceiverAccountId(remittance.getReceiver().getAccountId());
+        remittanceEntity.setReceiverDocument(remittance.getReceiver().getDocument().getValue());
+        remittanceEntity.setReceiverDocumentType(remittance.getReceiver().getDocument().getDocumentType().getCode());
+
+        remittanceEntity.setRemittanceCreateDate(ZonedDateTime.now().toString());
+        remittanceEntity.setRemittanceStatus(RemittanceStatus.EFETIVADO.getCode());
+        return remittanceEntity;
+
     }
 }
